@@ -7,7 +7,12 @@ public enum Category {
     PLOGGING("플로깅"),
     REFORM("리폼"),
     TRANSPORT("대중교통, 자전거"),
-    ETC("기타");
+    ETC("기타"),
+    QUESTION("질문"),
+    INFO("정보 공유"),
+    DAILY("일상");
+
+
 
 
     private String name;
