@@ -24,4 +24,6 @@ public class PostImg extends AuditEntity {
 
     @Column(name="img_url", nullable = false)
     private String imgUrl;
+    @Column(name="title", nullable = false)
+    private String title;
 }
