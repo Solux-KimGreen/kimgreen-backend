@@ -30,6 +30,7 @@ public enum BadgeList {
     public int goal;
     public String url;
 
+
     private BadgeList(String name, int goal) {
         this.name = name;
         this.goal = goal;

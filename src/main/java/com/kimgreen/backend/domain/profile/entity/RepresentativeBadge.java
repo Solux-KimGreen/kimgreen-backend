@@ -27,5 +27,9 @@ public class RepresentativeBadge extends AuditEntity {
     @Enumerated(EnumType.STRING)
     private BadgeList representativeBadge;
 
+    public void changeRepBadge(String badge) {
+        this.representativeBadge = BadgeList.valueOf(badge);
+    }
+
 
 }
