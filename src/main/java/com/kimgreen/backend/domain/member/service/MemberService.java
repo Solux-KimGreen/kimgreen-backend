@@ -119,10 +119,10 @@ public class MemberService {
         return SettingInfoResponseDto.builder()
                 .nickname(member.getNickname())
                 .profileImg(profileUrl)
-                .badge(representativeBadge.getRepresentativeBadge().name)
-                .badgeImg(badgeUrl)
-                .commentAlarm(member.isCommentAlarm())
-                .likeAlarm(member.isLikeAlarm())
+                .profileBadge(representativeBadge.getRepresentativeBadge().name)
+                .profileBadgeImg(badgeUrl)
+                .commentAgreement(member.isCommentAlarm())
+                .likeAgreement(member.isLikeAlarm())
                 .build();
     }
 
