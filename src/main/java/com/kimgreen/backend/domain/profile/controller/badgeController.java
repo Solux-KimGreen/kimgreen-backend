@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import static com.kimgreen.backend.response.Message.SIGN_UP_SUCCESS;
+import static com.kimgreen.backend.response.Message.*;
 import static com.kimgreen.backend.response.Response.success;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -29,6 +29,6 @@ public class badgeController {
     @PatchMapping()
     public Response changeRepBadge(@RequestBody RepBadgeRequestDto repBadgeRequestDto) {
         badgeService.changeRepBadge(repBadgeRequestDto);
-        return success(SIGN_UP_SUCCESS);
+        return success(CHANGE_REPRESENTATIVE_BADGE_SUCCESS);
     }
 }

@@ -1,7 +1,7 @@
 package com.kimgreen.backend.domain;
 
 public enum BadgeList {
-    BLANK(""),
+    BLANK("",""),
     MENTOR("그린 멘토",5,"mentor.png"),
     MENTEE("그린 멘티",5,"mentee.png"),
     EARLYBIRD("얼리버드",3,"earlybird.png"),
