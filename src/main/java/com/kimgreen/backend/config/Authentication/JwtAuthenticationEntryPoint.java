@@ -21,19 +21,19 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
-                         AuthenticationException authException) throws IOException, ServletException {
+                         AuthenticationException authException) throws IOException {
         String exception = (String)request.getAttribute("exception");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json; charset=UTF-8");
 
-        if(exception.equals(EXPIRED)) {
-            setResponse(response,EXPIRED);
+        if(exception!=null) {
+            if (exception.equals(EXPIRED)) {
+                setResponse(response, EXPIRED);
+            }
+            if (exception.equals(DENIED)) {
+                setResponse(response, DENIED);
+            }
         }
-        if(exception.equals(DENIED)) {
-            setResponse(response,DENIED);
-        }
-
-
 
     }
 

@@ -39,6 +39,12 @@ public class Advice {
         return Response.failure(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드 최대 용량을 초과했습니다.: 50MB");
     }
 
+    @ExceptionHandler(BadgeNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response BadgeNotFoundResponse() {
+        return Response.failure(HttpStatus.NOT_FOUND,"요청한 뱃지를 찾을 수 없습니다.");
+    }
+
 
 
 }
