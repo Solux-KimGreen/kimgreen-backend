@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Profile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,5 +29,7 @@ public class ProfileBadge extends AuditEntity {
     private Member member;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private List<BadgeList> profileBadges = new ArrayList<>();
+
 }

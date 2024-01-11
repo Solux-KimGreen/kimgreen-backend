@@ -110,4 +110,5 @@ public class Badge extends AuditEntity {
 
     @Column(name="golden_is_achieved",columnDefinition = "boolean default false")
     private boolean goldenIsAchieved;
+
 }

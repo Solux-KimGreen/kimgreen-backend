@@ -26,4 +26,6 @@ public class RepresentativeBadge extends AuditEntity {
 
     @Enumerated(EnumType.STRING)
     private BadgeList representativeBadge;
+
+
 }

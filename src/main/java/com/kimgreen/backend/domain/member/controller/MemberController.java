@@ -58,5 +58,12 @@ public class MemberController {
         return success(CHANGE_PROFILE_IMG_SUCCESS);
     }
 
+    @Operation(summary = "설정창 정보 불러오기")
+    @ResponseStatus(OK)
+    @GetMapping()
+    public Response getSettingsInfo() {
+        return success(GET_MEMBER_INFO_SETTING_SUCCESS, memberService.getSettingInfo());
+    }
+
 
 }
