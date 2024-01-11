@@ -59,4 +59,11 @@ public class MemberController {
     public Response getSettingsInfo() {
         return success(GET_MEMBER_INFO_SETTING_SUCCESS, memberService.getSettingInfo());
     }
+
+    @Operation(summary = "사용자 별명 불러오기 불러오기")
+    @ResponseStatus(OK)
+    @GetMapping("/profile-name")
+    public Response getMemberInfo() {
+        return success(GET_MEMBER_INFO, memberService.getMemberInfo());
+    }
 }

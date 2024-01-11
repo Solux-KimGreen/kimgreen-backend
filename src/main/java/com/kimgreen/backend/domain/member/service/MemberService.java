@@ -1,6 +1,7 @@
 package com.kimgreen.backend.domain.member.service;
 
 import com.kimgreen.backend.domain.community.service.S3Service;
+import com.kimgreen.backend.domain.member.dto.Member.MemberInfoResponse;
 import com.kimgreen.backend.domain.member.dto.Member.SettingInfoResponseDto;
 import com.kimgreen.backend.domain.member.entity.Member;
 import com.kimgreen.backend.domain.member.entity.MemberProfileImg;
@@ -117,6 +118,17 @@ public class MemberService {
                 .badgeImg(badgeUrl)
                 .commentAlarm(member.isCommentAlarm())
                 .likeAlarm(member.isLikeAlarm())
+                .build();
+    }
+
+    public MemberInfoResponse getMemberInfo() {
+        Member member = getCurrentMember();
+        RepresentativeBadge representativeBadge = representativeBadgeRepository.findByMember(member);
+
+        return MemberInfoResponse.builder()
+                .writerEmail(member.getEmail())
+                .badge(representativeBadge.getRepresentativeBadge().name)
+                .badgeImg(s3Service.getFullUrl(representativeBadge.getRepresentativeBadge().url))
                 .build();
     }
 
