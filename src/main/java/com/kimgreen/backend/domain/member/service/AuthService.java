@@ -1,6 +1,7 @@
 package com.kimgreen.backend.domain.member.service;
 
 import com.kimgreen.backend.config.Authentication.JwtProvider;
+import com.kimgreen.backend.domain.BadgeList;
 import com.kimgreen.backend.domain.member.dto.Auth.ChangePasswordDto;
 import com.kimgreen.backend.domain.member.dto.Auth.LogInRequestDto;
 import com.kimgreen.backend.domain.member.dto.Auth.SignUpRequestDto;
@@ -9,6 +10,12 @@ import com.kimgreen.backend.domain.member.entity.Member;
 import com.kimgreen.backend.domain.member.entity.RefreshToken;
 import com.kimgreen.backend.domain.member.repository.MemberRepository;
 import com.kimgreen.backend.domain.member.repository.RefreshTokenRepository;
+import com.kimgreen.backend.domain.profile.entity.Badge;
+import com.kimgreen.backend.domain.profile.entity.ProfileBadge;
+import com.kimgreen.backend.domain.profile.entity.RepresentativeBadge;
+import com.kimgreen.backend.domain.profile.repository.BadgeRepository;
+import com.kimgreen.backend.domain.profile.repository.ProfileBadgeRepository;
+import com.kimgreen.backend.domain.profile.repository.RepresentativeBadgeRepository;
 import com.kimgreen.backend.exception.DuplicateEmail;
 import com.kimgreen.backend.exception.LogInFailureEmail;
 import com.kimgreen.backend.exception.LogInFailurePassword;
@@ -30,6 +37,9 @@ public class AuthService {
 
     private final MemberRepository memberRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final BadgeRepository badgeRepository;
+    private final ProfileBadgeRepository profileBadgeRepository;
+    private final RepresentativeBadgeRepository representativeBadgeRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -43,7 +53,9 @@ public class AuthService {
         String nickname = signUpRequestDto.getNickname();
 
         validateEmail(email);
+
         memberRepository.save(signUpRequestDto.toMemberEntity(email, passwordEncoder.encode(password),nickname));
+        saveMember(signUpRequestDto,email, password, nickname);
     }
 
     @Transactional
@@ -134,6 +146,19 @@ public class AuthService {
         if(memberRepository.existsByEmail(email)) {
             throw new DuplicateEmail();
         }
+    }
+
+    public void saveMember(SignUpRequestDto signUpRequestDto,String email, String password, String nickname) {
+        memberRepository.save(signUpRequestDto.toMemberEntity(email, passwordEncoder.encode(password),nickname));
+        Member member = memberRepository.findByEmail(email);
+        profileImgRepository.save(signUpRequestDto.toMemberProfileImgEntity(member));
+        badgeRepository.save(Badge.builder().member(member).build());
+        profileBadgeRepository.save(ProfileBadge.builder().member(member).build());
+        representativeBadgeRepository.save(
+                RepresentativeBadge.builder()
+                        .representativeBadge(BadgeList.BLANK)
+                        .member(member)
+                        .build());
     }
 
 }

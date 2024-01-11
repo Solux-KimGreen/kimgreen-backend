@@ -37,4 +37,26 @@ public class MemberController {
         return success(DELETE_MEMBER_SUCCESS);
     }
 
+
+    @Operation(summary = "닉네임 변경하기")
+    @ResponseStatus(OK)
+    @PatchMapping("/nickname")
+    public Response changeNickname(@RequestBody NicknameRequestDto nicknameRequestDto) {
+        memberService.changeNickname(nicknameRequestDto.getNickname());
+        return success(CHANGE_NICKNAME_SUCCESS);
+    }
+    @Operation(summary = "프로필 사진진 변경기")
+    @ResponseStatus(OK)
+    @PatchMapping(value="/profile-img",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Response changeProfileImg(@RequestPart(value="file") MultipartFile multipartFile) throws IOException {
+        memberService.changeProfileImg(multipartFile);
+        return success(CHANGE_PROFILE_IMG_SUCCESS);
+    }
+
+    @Operation(summary = "설정창 정보 불러오기")
+    @ResponseStatus(OK)
+    @GetMapping()
+    public Response getSettingsInfo() {
+        return success(GET_MEMBER_INFO_SETTING_SUCCESS, memberService.getSettingInfo());
+    }
 }

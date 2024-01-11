@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.UUID;
 
 @Service
@@ -35,12 +36,22 @@ public class S3Service {
         return createdFilename; //createdFilename = key : S3URL+key 형식으로 불러오면 됨
     }
 
-    public void uploadDB(PostImg postImg) {
-        postImgRepository.save(postImg);
+    //삭제
+    public void delete(String url) {
+        amazonS3.deleteObject(bucket, url);
     }
+    //db에 저장 - 필요없으면 삭제 O
+    public void uploadDB(PostImg postImg) {postImgRepository.save(postImg);}
 
+    //랜덤이름 생성
     public String createFileName(String fileName) {
         String fileExtension = fileName.substring(fileName.lastIndexOf("."));
         return UUID.randomUUID().toString()+fileExtension;
     }
+
+    //실제 주소 얻기
+    public String getFullUrl(String key) {
+        return amazonS3.getUrl(bucket,key).toString();
+    }
+
 }
