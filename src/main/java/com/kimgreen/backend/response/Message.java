@@ -10,5 +10,6 @@ public class Message {
     public static String CHANGE_NICKNAME_SUCCESS="닉네임 변경하기 성공했습니다.";
     public static String GET_MEMBER_INFO_SETTING_SUCCESS="설정창 정보 불러오기 성공했습니다.";
     public static String CHANGE_PROFILE_IMG_SUCCESS="프로필 사진 변경하기 성공했습니다.";
+    public static String GET_MEMBER_INFO="사용자 별명 불러오기 성공했습니다.";
 
 }

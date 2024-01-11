@@ -52,7 +52,7 @@ public class AuthService {
     public void signUp(SignUpRequestDto signUpRequestDto) {
         String email = signUpRequestDto.getEmail();
         String password = signUpRequestDto.getPassword();
-        String nickname = signUpRequestDto.getNickname();
+        String nickname = signUpRequestDto.getName();
 
         validateEmail(email);
         saveMember(signUpRequestDto,email, password, nickname);
