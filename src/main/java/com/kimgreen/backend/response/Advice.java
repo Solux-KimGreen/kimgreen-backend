@@ -1,10 +1,7 @@
 package com.kimgreen.backend.response;
 
 
-import com.kimgreen.backend.exception.DuplicateEmail;
-import com.kimgreen.backend.exception.LogInFailureEmail;
-import com.kimgreen.backend.exception.LogInFailurePassword;
-import com.kimgreen.backend.exception.RefreshTokenExpired;
+import com.kimgreen.backend.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -34,6 +31,12 @@ public class Advice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Response RefreshTokenExpiredResponse() {
         return Response.failure(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 유효하지 않습니다.");
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceeded.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Response MaxUploadSizeExceededResponse() {
+        return Response.failure(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드 최대 용량을 초과했습니다.: 50MB");
     }
 
 

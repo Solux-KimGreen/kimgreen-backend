@@ -5,6 +5,8 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.kimgreen.backend.domain.community.entity.Post;
 import com.kimgreen.backend.domain.community.entity.PostImg;
 import com.kimgreen.backend.domain.community.repository.PostImgRepository;
+import com.kimgreen.backend.domain.member.entity.MemberProfileImg;
+import com.kimgreen.backend.domain.member.repository.MemberProfileImgRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class S3Service {
     private final PostImgRepository postImgRepository;
+    private final MemberProfileImgRepository memberProfileImgRepository;
     private final AmazonS3 amazonS3;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    //post에 첨부되는 이미지 업로드
     public String saveFile(MultipartFile multipartFile) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
         String createdFilename = createFileName(originalFilename);
@@ -35,13 +39,29 @@ public class S3Service {
                 .imgUrl(createdFilename)
                 .title(originalFilename)
                 .build());
-        //return amazonS3.getUrl(bucket, createdFilename).toString(); //key?
-        return createdFilename; //createdFilename = key : S3URL+key 형식으로 불러오면 됨
+        return createdFilename;
     }
 
-    public void uploadDB(PostImg postImg) {
-        postImgRepository.save(postImg);
+    //프로필 이미지 업로드
+    public String saveProfileFile(MultipartFile multipartFile) throws IOException {
+        String originalFilename = multipartFile.getOriginalFilename();
+        String createdFilename = createFileName(originalFilename);
+
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(multipartFile.getSize());
+        metadata.setContentType(multipartFile.getContentType());
+
+        amazonS3.putObject(bucket, createdFilename, multipartFile.getInputStream(), metadata);
+
+        return createdFilename;
     }
+
+    public void delete(String url) {
+        amazonS3.deleteObject(bucket, url);
+    }
+
+    public void uploadDB(PostImg postImg) {postImgRepository.save(postImg);}
+
 
     public String createFileName(String fileName) {
         String fileExtension = fileName.substring(fileName.lastIndexOf("."));

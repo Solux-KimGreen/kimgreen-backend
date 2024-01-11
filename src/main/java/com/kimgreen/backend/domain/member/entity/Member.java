@@ -50,13 +50,11 @@ public class Member extends AuditEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public void changePassword(String newPassword) {
-        this.password = newPassword;
-    }
-    public void changeCommentAlarm(boolean b) {
-        this.commentAlarm = b;
-    }public void changeLikeAlarm(boolean b) {
+    public void changePassword(String newPassword) {this.password = newPassword;}
+    public void changeCommentAlarm(boolean b) {this.commentAlarm = b;}
+    public void changeLikeAlarm(boolean b) {
         this.likeAlarm = b;
     }
+    public void changeNickname(String nickname) { this.nickname = nickname; }
 
 }

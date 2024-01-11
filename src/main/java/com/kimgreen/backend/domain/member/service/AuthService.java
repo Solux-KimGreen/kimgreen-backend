@@ -7,6 +7,7 @@ import com.kimgreen.backend.domain.member.dto.Auth.SignUpRequestDto;
 import com.kimgreen.backend.domain.member.dto.Auth.TokenDto;
 import com.kimgreen.backend.domain.member.entity.Member;
 import com.kimgreen.backend.domain.member.entity.RefreshToken;
+import com.kimgreen.backend.domain.member.repository.MemberProfileImgRepository;
 import com.kimgreen.backend.domain.member.repository.MemberRepository;
 import com.kimgreen.backend.domain.member.repository.RefreshTokenRepository;
 import com.kimgreen.backend.exception.DuplicateEmail;
@@ -29,6 +30,7 @@ import org.springframework.util.StringUtils;
 public class AuthService {
 
     private final MemberRepository memberRepository;
+    private final MemberProfileImgRepository profileImgRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
@@ -44,6 +46,7 @@ public class AuthService {
 
         validateEmail(email);
         memberRepository.save(signUpRequestDto.toMemberEntity(email, passwordEncoder.encode(password),nickname));
+        profileImgRepository.save(signUpRequestDto.toMemberProfileImgEntity(memberRepository.findByEmail(email)));
     }
 
     @Transactional
