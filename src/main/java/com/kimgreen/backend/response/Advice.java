@@ -14,7 +14,7 @@ public class Advice {
     @ResponseStatus(HttpStatus.CONFLICT)
     public Response DuplicateEmailResponse() {
         return Response.failure(HttpStatus.CONFLICT, "중복 이메일입니다.");
-}
+    }
 
     @ExceptionHandler(LogInFailureEmail.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
