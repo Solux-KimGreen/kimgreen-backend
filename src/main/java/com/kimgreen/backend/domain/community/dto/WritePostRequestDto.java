@@ -14,7 +14,15 @@ public class WritePostRequestDto {
     private String category;
     private String content;
 
-    public Post toPostEntity(String category, String content) {
+    public Post toCertifyPostEntity(String category, String content) {
+        return Post.builder()
+                .category(Category.valueOf(category))
+                .content(content)
+                .tag(Tag.CERTIFY)
+                .build();
+    }
+
+    public Post toDailyPostEntity(String category, String content) {
         return Post.builder()
                 .category(Category.valueOf(category))
                 .content(content)

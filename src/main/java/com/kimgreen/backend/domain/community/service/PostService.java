@@ -29,7 +29,7 @@ public class PostService {
         // 이미 s3에 저장된 이미지는 삭제되지 않는 문제가 있음.
 
         // post를 먼저 저장
-        Post post = postRepository.save(writePostRequestDto.toPostEntity(
+        Post post = postRepository.save(writePostRequestDto.toCertifyPostEntity(
                                         writePostRequestDto.getCategory(),
                                         writePostRequestDto.getContent()));
 
@@ -46,7 +46,7 @@ public class PostService {
         // 이미 s3에 저장된 이미지는 삭제되지 않는 문제가 있음.
 
         // post를 먼저 저장
-        Post post = postRepository.save(writePostRequestDto.toPostEntity(
+        Post post = postRepository.save(writePostRequestDto.toDailyPostEntity(
                 writePostRequestDto.getCategory(),
                 writePostRequestDto.getContent()));
 
