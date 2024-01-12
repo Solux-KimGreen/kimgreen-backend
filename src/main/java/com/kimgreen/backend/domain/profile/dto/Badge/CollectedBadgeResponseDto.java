@@ -16,4 +16,3 @@ public class CollectedBadgeResponseDto {
     private String badgeImg;
 
 }
-
