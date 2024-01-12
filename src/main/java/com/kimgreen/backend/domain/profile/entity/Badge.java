@@ -51,6 +51,9 @@ public class Badge extends AuditEntity {
     @Column(name = "receipt_3_is_achieved", columnDefinition = "boolean default false")
     private boolean receipt3IsAchieved;
     @Column(name = "receipt_10_is_achieved", columnDefinition = "boolean default false")
+    @Column(name="receipt_3_is_achieved",columnDefinition = "boolean default false")
+    private boolean receipt3IsAchieved;
+    @Column(name="receipt_10_is_achieved",columnDefinition = "boolean default false")
     private boolean receipt10IsAchieved;
 
     @Column(name = "reusable_count", columnDefinition = "int default 0")
@@ -58,6 +61,9 @@ public class Badge extends AuditEntity {
     @Column(name = "reusable_3_is_achieved", columnDefinition = "boolean default false")
     private boolean reusable3IsAchieved;
     @Column(name = "reusable_10_is_achieved", columnDefinition = "boolean default false")
+    @Column(name="reusable_3_is_achieved",columnDefinition = "boolean default false")
+    private boolean reusable3IsAchieved;
+    @Column(name="reusable_10_is_achieved",columnDefinition = "boolean default false")
     private boolean reusable10IsAchieved;
 
     @Column(name = "plastic_count", columnDefinition = "int default 0")
@@ -65,6 +71,9 @@ public class Badge extends AuditEntity {
     @Column(name = "plastic_3_is_achieved", columnDefinition = "boolean default false")
     private boolean plastic3IsAchieved;
     @Column(name = "plastic_10_is_achieved", columnDefinition = "boolean default false")
+    @Column(name="plastic_3_is_achieved",columnDefinition = "boolean default false")
+    private boolean plastic3IsAchieved;
+    @Column(name="plastic_10_is_achieved",columnDefinition = "boolean default false")
     private boolean plastic10IsAchieved;
 
     @Column(name = "plogging_count", columnDefinition = "int default 0")
@@ -72,6 +81,9 @@ public class Badge extends AuditEntity {
     @Column(name = "plogging_3_is_achieved", columnDefinition = "boolean default false")
     private boolean plogging3IsAchieved;
     @Column(name = "plogging_10_is_achieved", columnDefinition = "boolean default false")
+    @Column(name="plogging_3_is_achieved",columnDefinition = "boolean default false")
+    private boolean plogging3IsAchieved;
+    @Column(name="plogging_10_is_achieved",columnDefinition = "boolean default false")
     private boolean plogging10IsAchieved;
 
     @Column(name = "reform_count", columnDefinition = "int default 0")
@@ -79,6 +91,9 @@ public class Badge extends AuditEntity {
     @Column(name = "reform_3_is_achieved", columnDefinition = "boolean default false")
     private boolean reform3IsAchieved;
     @Column(name = "reform_10_is_achieved", columnDefinition = "boolean default false")
+    @Column(name="reform_3_is_achieved",columnDefinition = "boolean default false")
+    private boolean reform3IsAchieved;
+    @Column(name="reform_10_is_achieved",columnDefinition = "boolean default false")
     private boolean reform10IsAchieved;
 
     @Column(name = "transport_count", columnDefinition = "int default 0")
@@ -86,6 +101,9 @@ public class Badge extends AuditEntity {
     @Column(name = "transport_3_is_achieved", columnDefinition = "boolean default false")
     private boolean transport3IsAchieved;
     @Column(name = "transport_10_is_achieved", columnDefinition = "boolean default false")
+    @Column(name="transport_3_is_achieved",columnDefinition = "boolean default false")
+    private boolean transport3IsAchieved;
+    @Column(name="transport_10_is_achieved",columnDefinition = "boolean default false")
     private boolean transport10IsAchieved;
 
     @Column(name = "etc_count", columnDefinition = "int default 0")
@@ -93,6 +111,9 @@ public class Badge extends AuditEntity {
     @Column(name = "etc_3_is_achieved", columnDefinition = "boolean default false")
     private boolean etc3IsAchieved;
     @Column(name = "etc_10_is_achieved", columnDefinition = "boolean default false")
+    @Column(name="etc_3_is_achieved",columnDefinition = "boolean default false")
+    private boolean etc3IsAchieved;
+    @Column(name="etc_10_is_achieved",columnDefinition = "boolean default false")
     private boolean etc10IsAchieved;
 
 
@@ -101,4 +122,36 @@ public class Badge extends AuditEntity {
 
     @Column(name = "golden_is_achieved", columnDefinition = "boolean default false")
     private boolean goldenIsAchieved;
+
+    String[] columnList = {
+            "adventurer_is_achieved",
+            "certification_10_is_achieved",
+            "certification_20_is_achieved",
+            "certification_50_is_achieved",
+            "etc_10_is_achieved",
+            "etc_20_is_achieved",
+            "etc_50_is_achieved",
+            "golden_is_achieved",
+            "mentee_is_achieved",
+            "mentor_is_achieved",
+            "plastic_10_is_achieved",
+            "plastic_20_is_achieved",
+            "plastic_50_is_achieved",
+            "plogging_10_is_achieved",
+            "plogging_20_is_achieved",
+            "plogging_50_is_achieved",
+            "receipt_10_is_achieved",
+            "receipt_20_is_achieved",
+            "receipt_50_is_achieved",
+            "reform_10_is_achieved",
+            "reform_20_is_achieved",
+            "reform_50_is_achieved",
+            "reusable_10_is_achieved",
+            "reusable_20_is_achieved",
+            "reusable_50_is_achieved",
+            "transport_10_is_achieved",
+            "transport_20_is_achieved",
+            "transport_50_is_achieved"
+    };
+
 }

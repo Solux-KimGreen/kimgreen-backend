@@ -29,11 +29,18 @@ public class badgeController {
         return success(CHANGE_REPRESENTATIVE_BADGE_SUCCESS);
     }
 
-    @Operation(summary = "대표뱃지 설정하기")
+    @Operation(summary = "프로필뱃지 설정하기")
     @ResponseStatus(OK)
     @PatchMapping("/profile")
     public Response changeProfileBadges(@RequestBody ProfileBadgeRequestDto profileBadgeRequestDto) {
         badgeService.changeProfileBadge(profileBadgeRequestDto);
         return success(CHANGE_PROFILE_BADGE_SUCCESS);
+    }
+
+    @Operation(summary = "획득뱃지 상세정보 불러오기")
+    @ResponseStatus(OK)
+    @GetMapping("/collect")
+    public Response getCollectedBadgeInfo() {
+        return success(GET_COLLECTED_BADGE_INFO,badgeService.getCollectedBadgeInfo());
     }
 }
