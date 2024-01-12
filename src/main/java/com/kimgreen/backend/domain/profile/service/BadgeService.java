@@ -58,12 +58,14 @@ public class BadgeService {
         //반환할 dto list 삽입
         List<CollectedBadgeResponseDto> returnDto = new ArrayList<>();
         for(BadgeList b: badgeMap.keySet()) {
-            returnDto.add(
-                    CollectedBadgeResponseDto.builder()
-                            .badge(b.toString())
-                            .badgeImg(s3Service.getFullUrl(b.url))
-                            .build()
-            );
+            if(badgeMap.get(b)==true) {
+                returnDto.add(
+                        CollectedBadgeResponseDto.builder()
+                                .badge(b.toString())
+                                .badgeImg(s3Service.getFullUrl(b.url))
+                                .build()
+                );
+            }
         }
         return returnDto;
     }
