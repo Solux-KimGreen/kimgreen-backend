@@ -24,13 +24,4 @@ public class Message {
     public static String DELETE_COMMENT_SUCCESS="댓글 삭제 성공했습니다.";
     public static String GET_COMMENT_SUCCESS="댓글 목록을 불러오는데 성공하였습니다.";
 
-
-    public static String SUCCESS_TO_WRITE_POST="인증 게시글 작성 성공했습니다.";
-    public static String CHANGE_NICKNAME_SUCCESS="닉네임 변경하기 성공했습니다.";
-    public static String GET_MEMBER_INFO_SETTING_SUCCESS="설정창 정보 불러오기 성공했습니다.";
-    public static String CHANGE_PROFILE_IMG_SUCCESS="프로필 사진 변경하기 성공했습니다.";
-    public static String GET_MEMBER_INFO="사용자 별명 불러오기 성공했습니다.";
-    public static String CHANGE_REPRESENTATIVE_BADGE_SUCCESS="대표뱃지 설정 성공했습니다.";
-    public static String CHANGE_PROFILE_BADGE_SUCCESS="프로필뱃지 선택 성공했습니다.";
-    public static String GET_COLLECTED_BADGE_INFO="획득뱃지 상세정보 불러오기 성공했습니다.";
 }
