@@ -4,6 +4,7 @@ package com.kimgreen.backend.config.Authentication;
 import com.kimgreen.backend.domain.member.entity.Member;
 import com.kimgreen.backend.domain.member.repository.MemberRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

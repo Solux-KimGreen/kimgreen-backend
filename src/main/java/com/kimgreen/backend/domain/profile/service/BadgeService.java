@@ -5,6 +5,7 @@ import com.kimgreen.backend.domain.community.service.S3Service;
 import com.kimgreen.backend.domain.member.entity.Member;
 import com.kimgreen.backend.domain.member.service.MemberService;
 import com.kimgreen.backend.domain.profile.dto.Badge.CollectedBadgeResponseDto;
+import com.kimgreen.backend.domain.profile.dto.Badge.NotCollectedBadgeResponseDto;
 import com.kimgreen.backend.domain.profile.dto.Badge.ProfileBadgeRequestDto;
 import com.kimgreen.backend.domain.profile.dto.Badge.RepBadgeRequestDto;
 import com.kimgreen.backend.domain.profile.entity.Badge;
@@ -58,10 +59,10 @@ public class BadgeService {
         //반환할 dto list 삽입
         List<CollectedBadgeResponseDto> returnDto = new ArrayList<>();
         for(BadgeList b: badgeMap.keySet()) {
-            if(badgeMap.get(b)==true) {
+            if(badgeMap.get(b)) {
                 returnDto.add(
                         CollectedBadgeResponseDto.builder()
-                                .badge(b.toString())
+                                .badge(b.name)
                                 .badgeImg(s3Service.getFullUrl(b.url))
                                 .build()
                 );
@@ -69,6 +70,41 @@ public class BadgeService {
         }
         return returnDto;
     }
+
+    public List<NotCollectedBadgeResponseDto> getNotCollectedBadgeInfo() {
+        Member member = memberService.getCurrentMember();
+        Badge badge = badgeRepository.findByMember(member);
+        //<badge, 달성여부>를 저장한 map 반환
+        Map<BadgeList,Boolean> map = getMap(badge);
+        //<badge, count>를 저장한 map 반환
+        Map<BadgeList, Integer> countMap = getCountMap(map,badge);
+        for(BadgeList b: countMap.keySet()) {
+            System.out.println(b);
+        }
+        //반환할 dto list 삽입
+        List<NotCollectedBadgeResponseDto> returnDto = new ArrayList<>();
+        for(BadgeList b: countMap.keySet()) {
+            System.out.println("inside the for");
+            if(b==BadgeList.ADVENTURER || b==BadgeList.GOLDEN_KIMGREEN) {
+                returnDto.add(
+                        NotCollectedBadgeResponseDto.builder()
+                                .badgeImg(s3Service.getFullUrl(b.url))
+                                .content(b.content)
+                                .goal(b.goal)
+                                .build());
+            } else {
+                returnDto.add(
+                        NotCollectedBadgeResponseDto.builder()
+                                .badgeImg(s3Service.getFullUrl(b.url))
+                                .content(b.content)
+                                .completeCount(countMap.get(b))
+                                .goal(b.goal)
+                                .build());
+            }
+        }
+        return returnDto;
+    }
+
 
 
     public List<BadgeList> toEnumList(List<String> badgeList) {
@@ -134,5 +170,36 @@ public class BadgeService {
         else {map.put(BadgeList.REFORM_10,false);}
         return  map;
 
+    }
+
+    public Map<BadgeList, Integer> getCountMap(Map<BadgeList,Boolean> badgeMap,Badge badge) {
+        System.out.println("in the getCountMap");
+        Map<BadgeList,Integer> map = new HashMap<>();
+        for(BadgeList badges: badgeMap.keySet()) {
+            System.out.println("in the getCountMap for");
+            System.out.println("key: "+badges+" value: "+badgeMap.get(badges));
+            if(badgeMap.get(badges)==false) {
+                System.out.println("in the getCountMap for if");
+                if(badges.equals(BadgeList.NORANG)) {map.put(BadgeList.NORANG,badge.getCertificationCount());}
+                if(badges.equals(BadgeList.YEONDU)) {map.put(BadgeList.YEONDU,badge.getCertificationCount());}
+                if(badges.equals(BadgeList.GREEN)) {map.put(BadgeList.GREEN,badge.getCertificationCount());}
+                if(badges.equals(BadgeList.ETC_3)) {map.put(BadgeList.ETC_3,badge.getEtcCount());}
+                if(badges.equals(BadgeList.ETC_10)) {map.put(BadgeList.ETC_10,badge.getEtcCount());}
+                if(badges.equals(BadgeList.PLASTIC_3)) {map.put(BadgeList.PLASTIC_3,badge.getPlasticCount());}
+                if(badges.equals(BadgeList.PLASTIC_10)) {map.put(BadgeList.PLASTIC_10,badge.getPlasticCount());}
+                if(badges.equals(BadgeList.PLOGGING_3)) {map.put(BadgeList.PLOGGING_3,badge.getPloggingCount());}
+                if(badges.equals(BadgeList.PLOGGING_10)) {map.put(BadgeList.PLOGGING_10,badge.getPloggingCount());}
+                if(badges.equals(BadgeList.RECEIPT_3)) {map.put(BadgeList.RECEIPT_3,badge.getReceiptCount());}
+                if(badges.equals(BadgeList.RECEIPT_10)) {map.put(BadgeList.RECEIPT_10,badge.getReceiptCount());}
+                if(badges.equals(BadgeList.REFORM_3)) {map.put(BadgeList.REFORM_3,badge.getReformCount());}
+                if(badges.equals(BadgeList.REFORM_10)) {map.put(BadgeList.REFORM_10,badge.getReformCount());}
+                if(badges.equals(BadgeList.REUSABLE_3)) {map.put(BadgeList.REUSABLE_3,badge.getReusableCount());}
+                if(badges.equals(BadgeList.REUSABLE_10)) {map.put(BadgeList.REUSABLE_10,badge.getReusableCount());}
+                if(badges.equals(BadgeList.ADVENTURER)) {map.put(BadgeList.ADVENTURER,0);}
+                if(badges.equals(BadgeList.GOLDEN_KIMGREEN)) {map.put(BadgeList.GOLDEN_KIMGREEN,0);}
+
+            }
+        }
+        return map;
     }
 }

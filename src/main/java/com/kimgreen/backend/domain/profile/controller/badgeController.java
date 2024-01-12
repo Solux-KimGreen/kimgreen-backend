@@ -43,4 +43,10 @@ public class badgeController {
     public Response getCollectedBadgeInfo() {
         return success(GET_COLLECTED_BADGE_INFO,badgeService.getCollectedBadgeInfo());
     }
+    @Operation(summary = "미획득뱃지 상세정보 불러오기")
+    @ResponseStatus(OK)
+    @GetMapping("/not-collect")
+    public Response getNotCollectedBadgeInfo() {
+        return success(GET_NOT_COLLECTED_BADGE_INFO,badgeService.getNotCollectedBadgeInfo());
+    }
 }

@@ -97,35 +97,4 @@ public class Badge extends AuditEntity {
     @Column(name="golden_is_achieved",columnDefinition = "boolean default false")
     private boolean goldenIsAchieved;
 
-    String[] columnList = {
-            "adventurer_is_achieved",
-            "certification_10_is_achieved",
-            "certification_20_is_achieved",
-            "certification_50_is_achieved",
-            "etc_10_is_achieved",
-            "etc_20_is_achieved",
-            "etc_50_is_achieved",
-            "golden_is_achieved",
-            "mentee_is_achieved",
-            "mentor_is_achieved",
-            "plastic_10_is_achieved",
-            "plastic_20_is_achieved",
-            "plastic_50_is_achieved",
-            "plogging_10_is_achieved",
-            "plogging_20_is_achieved",
-            "plogging_50_is_achieved",
-            "receipt_10_is_achieved",
-            "receipt_20_is_achieved",
-            "receipt_50_is_achieved",
-            "reform_10_is_achieved",
-            "reform_20_is_achieved",
-            "reform_50_is_achieved",
-            "reusable_10_is_achieved",
-            "reusable_20_is_achieved",
-            "reusable_50_is_achieved",
-            "transport_10_is_achieved",
-            "transport_20_is_achieved",
-            "transport_50_is_achieved"
-    };
-
 }
