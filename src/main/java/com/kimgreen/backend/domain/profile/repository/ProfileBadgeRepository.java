@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProfileBadgeRepository extends JpaRepository<ProfileBadge, Long> {
     public void deleteByMember(Member member);
+    public ProfileBadge findByMember(Member member);
 }
