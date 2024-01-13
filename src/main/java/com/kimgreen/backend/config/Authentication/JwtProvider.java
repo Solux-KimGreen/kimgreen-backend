@@ -29,7 +29,7 @@ public class JwtProvider {
 
     private Key secretKey;
     @Value("${jwt.secret-key}") String key;
-    private static final long EXPIRE_TIME=1000*60*2*30; //1분
+    private static final long EXPIRE_TIME=1000*60*2*30*60; //1분
     private static final long REFRESH_EXPIRE_TIME = 10*60*60*24*7; //7일
     private static final String SUCCESS = "success";
     private static final String EXPIRED = "expired";

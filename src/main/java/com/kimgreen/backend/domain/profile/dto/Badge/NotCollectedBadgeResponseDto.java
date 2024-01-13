@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,4 +16,6 @@ public class NotCollectedBadgeResponseDto {
     private String content;
     private int completeCount;
     private int goal;
+
+
 }

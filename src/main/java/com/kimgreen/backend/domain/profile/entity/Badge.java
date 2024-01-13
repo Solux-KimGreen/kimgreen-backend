@@ -23,6 +23,11 @@ public class Badge extends AuditEntity {
     @JoinColumn(name="member_id")
     private Member member;
 
+    @Column(name="earlybird_count",columnDefinition = "int default 0" )
+    private int earlybirdCount;
+    @Column(name="ealrybird_is_achieved",columnDefinition = "boolean default false")
+    private boolean earlybirdIsAchieved;
+
     @Column(name="mentor_count",columnDefinition = "int default 0")
     private int mentorCount;
     @Column(name="mentor_is_achieved",columnDefinition = "boolean default false")
@@ -96,5 +101,14 @@ public class Badge extends AuditEntity {
 
     @Column(name="golden_is_achieved",columnDefinition = "boolean default false")
     private boolean goldenIsAchieved;
+
+    public void updateGoldenAchieved() {
+        if(!this.isGoldenIsAchieved()) {this.goldenIsAchieved = true;}
+    }
+    public void updateGoldenNotAchieved() {
+        if(this.isGoldenIsAchieved()) {this.goldenIsAchieved=false;}
+    }
+    public void updateAdventurerAchieved() {if(!this.isAdventurerIsAchieved()) {this.adventurerIsAchieved = true;}}
+    public void updateAdventurerNotAchieved() {if(this.isAdventurerIsAchieved()) {this.adventurerIsAchieved=false;}}
 
 }
