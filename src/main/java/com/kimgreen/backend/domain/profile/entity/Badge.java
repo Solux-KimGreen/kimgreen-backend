@@ -23,12 +23,13 @@ public class Badge extends AuditEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(name = "earlybird_count", columnDefinition = "int default 0")
+    @Column(name="earlybird_count",columnDefinition = "int default 0" )
     private int earlybirdCount;
-    @Column(name = "ealrybird_is_achieved", columnDefinition = "boolean default false")
+    @Column(name="ealrybird_is_achieved",columnDefinition = "boolean default false")
     private boolean earlybirdIsAchieved;
 
-    @Column(name = "mentor_count", columnDefinition = "int default 0")
+    @Column(name="mentor_count",columnDefinition = "int default 0")
+
     private int mentorCount;
     @Column(name = "mentor_is_achieved", columnDefinition = "boolean default false")
     private boolean mentorIsAchieved;
@@ -123,6 +124,7 @@ public class Badge extends AuditEntity {
     @Column(name = "golden_is_achieved", columnDefinition = "boolean default false")
     private boolean goldenIsAchieved;
 
+
     String[] columnList = {
             "adventurer_is_achieved",
             "certification_10_is_achieved",
@@ -154,4 +156,12 @@ public class Badge extends AuditEntity {
             "transport_50_is_achieved"
     };
 
+    public void updateGoldenAchieved() {
+        if(!this.isGoldenIsAchieved()) {this.goldenIsAchieved = true;}
+    }
+    public void updateGoldenNotAchieved() {
+        if(this.isGoldenIsAchieved()) {this.goldenIsAchieved=false;}
+    }
+    public void updateAdventurerAchieved() {if(!this.isAdventurerIsAchieved()) {this.adventurerIsAchieved = true;}}
+    public void updateAdventurerNotAchieved() {if(this.isAdventurerIsAchieved()) {this.adventurerIsAchieved=false;}}
 }
