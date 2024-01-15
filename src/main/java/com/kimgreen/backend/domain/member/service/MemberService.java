@@ -1,20 +1,23 @@
 package com.kimgreen.backend.domain.member.service;
 
 import com.kimgreen.backend.domain.community.service.S3Service;
+import com.kimgreen.backend.domain.member.dto.Auth.DeleteMemberRequestDto;
 import com.kimgreen.backend.domain.member.dto.Member.MemberInfoResponse;
 import com.kimgreen.backend.domain.member.dto.Member.SettingInfoResponseDto;
 import com.kimgreen.backend.domain.member.entity.Member;
 import com.kimgreen.backend.domain.member.entity.MemberProfileImg;
-import com.kimgreen.backend.domain.member.entity.RefreshToken;
 import com.kimgreen.backend.domain.member.repository.MemberProfileImgRepository;
 import com.kimgreen.backend.domain.member.repository.MemberRepository;
 import com.kimgreen.backend.domain.member.repository.RefreshTokenRepository;
+import com.kimgreen.backend.domain.notification.repository.FCMTokenRepository;
 import com.kimgreen.backend.domain.profile.entity.RepresentativeBadge;
 import com.kimgreen.backend.domain.profile.repository.BadgeRepository;
 import com.kimgreen.backend.domain.profile.repository.ProfileBadgeRepository;
 import com.kimgreen.backend.domain.profile.repository.RepresentativeBadgeRepository;
+import com.kimgreen.backend.exception.LogInFailurePassword;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +37,8 @@ public class MemberService {
     private final BadgeRepository badgeRepository;
     private final ProfileBadgeRepository profileBadgeRepository;
     private final S3Service s3Service;
+    private final FCMTokenRepository fcmTokenRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
 
@@ -51,12 +56,16 @@ public class MemberService {
     }
 
     @Transactional
-    public void deleteMember() {
+    public void deleteMember(DeleteMemberRequestDto dto) {
         Member member = getCurrentMember();
+        validatePassword(dto.getPassword(),member);
         String email = member.getEmail();
 
         if(refreshTokenRepository.existsByEmail(email)) {
             refreshTokenRepository.deleteByEmail(email);
+        }
+        if(fcmTokenRepository.existsByReceiverId(email)) {
+            fcmTokenRepository.deleteByReceiverId(email);
         }
         profileBadgeRepository.deleteByMember(member);
         badgeRepository.deleteByMember(member);
@@ -140,6 +149,12 @@ public class MemberService {
     public void deleteFromS3(String urlToDelete) {
         if(!(urlToDelete.equals("profile.jpg"))) {
             s3Service.delete(urlToDelete);
+        }
+    }
+
+    public void validatePassword(String getPassword, Member member) {
+        if (!(passwordEncoder.matches(getPassword, member.getPassword()))) {
+            throw new LogInFailurePassword();
         }
     }
 }

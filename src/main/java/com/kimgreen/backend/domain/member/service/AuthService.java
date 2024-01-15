@@ -83,7 +83,7 @@ public class AuthService {
         // refresh token 저장
         saveRefreshToken(email, generatedRefreshToken);
         // FCM token 저장
-        FCMService.saveToken(member,dto.getFcmToken());
+        //FCMService.saveToken(member,dto.getFcmToken());
 
 
         return TokenDto.builder()

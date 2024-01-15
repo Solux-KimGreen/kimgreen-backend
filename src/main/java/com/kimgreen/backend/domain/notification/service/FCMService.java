@@ -13,6 +13,7 @@ import com.kimgreen.backend.domain.member.entity.Member;
 import com.kimgreen.backend.domain.member.repository.MemberRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.Async;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class FCMService {
     @Value("${fcm.key.path}")
     private String FCM_PRIVATE_KEY_PATH;
@@ -37,7 +38,7 @@ public class FCMService {
 
     @Value(("{fcm.url}"))
     private String FCM_URL;
-    private final ObjectMapper objectMapper;
+
     private final FCMTokenRepository fcmTokenRepository;
     private final MemberRepository memberRepository;
 
