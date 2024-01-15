@@ -1,5 +1,6 @@
 package com.kimgreen.backend.domain.member.controller;
 
+import com.kimgreen.backend.domain.member.dto.Auth.DeleteMemberRequestDto;
 import com.kimgreen.backend.domain.member.dto.Auth.SignUpRequestDto;
 import com.kimgreen.backend.domain.member.service.MemberService;
 import com.kimgreen.backend.response.Response;
@@ -32,8 +33,8 @@ public class MemberController {
     @Operation(summary = "회원 탈퇴")
     @ResponseStatus(OK)
     @DeleteMapping()
-    public Response deleteMember() {
-        memberService.deleteMember();
+    public Response deleteMember(@RequestBody DeleteMemberRequestDto deleteMemberRequestDto) {
+        memberService.deleteMember(deleteMemberRequestDto);
         return success(DELETE_MEMBER_SUCCESS);
     }
 
