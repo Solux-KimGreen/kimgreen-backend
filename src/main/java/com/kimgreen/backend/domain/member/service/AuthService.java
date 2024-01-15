@@ -2,6 +2,7 @@ package com.kimgreen.backend.domain.member.service;
 
 import com.kimgreen.backend.config.Authentication.JwtProvider;
 import com.kimgreen.backend.domain.BadgeList;
+import com.kimgreen.backend.domain.notification.service.FCMService;
 import com.kimgreen.backend.domain.member.dto.Auth.ChangePasswordDto;
 import com.kimgreen.backend.domain.member.dto.Auth.LogInRequestDto;
 import com.kimgreen.backend.domain.member.dto.Auth.SignUpRequestDto;
@@ -48,6 +49,7 @@ public class AuthService {
     private final MemberService memberService;
     private static final String SUCCESS = "success";
     private static final String EXPIRED = "expired";
+    private final FCMService FCMService;
 
     public void signUp(SignUpRequestDto signUpRequestDto) {
         String email = signUpRequestDto.getEmail();
@@ -80,6 +82,8 @@ public class AuthService {
                 .build();
         // refresh token 저장
         saveRefreshToken(email, generatedRefreshToken);
+        // FCM token 저장
+        FCMService.saveToken(member,dto.getFcmToken());
 
 
         return TokenDto.builder()
@@ -97,7 +101,7 @@ public class AuthService {
         String email = authentication.getName();
 
         // refresh token 검증
-        if (StringUtils.hasText(refreshToken) && jwtProvider.validateToken(refreshToken) == SUCCESS) {
+        if (StringUtils.hasText(refreshToken) && jwtProvider.validateToken(refreshToken).equals(SUCCESS)) {
             System.out.println("getting new access token");
             // access token 재발급
             String newAccessToken = jwtProvider.generateAccessToken(authentication);

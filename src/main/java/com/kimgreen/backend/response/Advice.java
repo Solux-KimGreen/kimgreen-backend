@@ -45,6 +45,11 @@ public class Advice {
         return Response.failure(HttpStatus.NOT_FOUND,"요청한 뱃지를 찾을 수 없습니다.");
     }
 
+    @ExceptionHandler(ConvertingJSONException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Response ConvertingJSONExceptionResponse() {
+        return Response.failure(HttpStatus.INTERNAL_SERVER_ERROR,"JSON 변환 에러");
+    }
 
 
 }
