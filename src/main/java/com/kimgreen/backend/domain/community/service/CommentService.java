@@ -12,7 +12,7 @@ import com.kimgreen.backend.exception.WrongPath;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -41,5 +41,18 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(WrongPath::new);
         commentRepository.delete(comment);
 
+    }
+
+    public List<Comment> getComment(Long postId){
+        List <Comment> allCommentList = commentRepository.findAll();
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFound::new);
+
+        List <Comment> commentList = null;
+        for (Comment comment : allCommentList){
+            if (comment.getPost() == post){
+                commentList.add(comment);
+            }
+        }
+        return commentList;
     }
 }
