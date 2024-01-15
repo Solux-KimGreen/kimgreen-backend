@@ -45,3 +45,11 @@ cloud:
       auto: false
     stack:
       auto: false
+
+
+# fcm : for push alarm
+fcm:
+  key:
+    path: kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
+    scope: https://www.googleapis.com/auth/cloud-platform
+
