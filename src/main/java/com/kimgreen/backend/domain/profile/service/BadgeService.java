@@ -79,9 +79,6 @@ public class BadgeService {
         Map<BadgeList,Boolean> map = getMap(badge);
         //<badge, count>를 저장한 map 반환
         Map<BadgeList, Integer> countMap = getCountMap(map,badge);
-        for(BadgeList b: countMap.keySet()) {
-            System.out.println(b);
-        }
         //반환할 dto list 삽입
         List<NotCollectedBadgeResponseDto> returnDto = new ArrayList<>();
         for(BadgeList b: countMap.keySet()) {
@@ -200,9 +197,7 @@ public class BadgeService {
     public Map<BadgeList, Integer> getCountMap(Map<BadgeList,Boolean> badgeMap,Badge badge) {
         Map<BadgeList,Integer> map = new LinkedHashMap<>();
         for(BadgeList badges: badgeMap.keySet()) {
-            System.out.println("in for: "+badges);
             if(badgeMap.get(badges)==false) {
-                System.out.println("in false: "+badges);
                 if(badges.equals(BadgeList.NORANG)) {map.put(BadgeList.NORANG,badge.getCertificationCount());}
                 if(badges.equals(BadgeList.YEONDU)) {map.put(BadgeList.YEONDU,badge.getCertificationCount());}
                 if(badges.equals(BadgeList.GREEN)) {map.put(BadgeList.GREEN,badge.getCertificationCount());}
