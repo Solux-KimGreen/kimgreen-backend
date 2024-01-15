@@ -8,6 +8,7 @@ import com.kimgreen.backend.domain.community.repository.PostRepository;
 import com.kimgreen.backend.domain.member.entity.Member;
 import com.kimgreen.backend.domain.member.service.MemberService;
 import com.kimgreen.backend.exception.PostNotFound;
+import com.kimgreen.backend.exception.WrongPath;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,12 @@ public class CommentService {
         // 데이터 베이스에 저장하기
         commentRepository.save(comment);
         // 명세서의 오류들 처리하기???
+    }
+
+    public void deleteComment(Long commentId){
+        Member member = memberService.getCurrentMember();
+        Comment comment = commentRepository.findById(commentId).orElseThrow(WrongPath::new);
+        commentRepository.delete(comment);
+
     }
 }

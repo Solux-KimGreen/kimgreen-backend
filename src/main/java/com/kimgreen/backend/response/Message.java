@@ -16,5 +16,6 @@ public class Message {
     public static String GET_COLLECTED_BADGE_INFO="획득뱃지 상세정보 불러오기 성공했습니다.";
 
     public static String POST_COMMENT_SUCCESS="댓글을 작성하는데 성공하였습니다.";
+    public static String DELETE_COMMENT_SUCCESS="댓글 삭제 성공했습니다.";
 
 }

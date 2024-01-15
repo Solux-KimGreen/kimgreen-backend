@@ -51,4 +51,10 @@ public class Advice {
         return Response.failure(HttpStatus.NOT_FOUND, "요청한 게시글을 찾을 수 없습니다.");
     }
 
+    @ExceptionHandler(WrongPath.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response WrongPath() {
+        return Response.failure(HttpStatus.NOT_FOUND, "잘못된 경로입니다.");
+    }
+
 }

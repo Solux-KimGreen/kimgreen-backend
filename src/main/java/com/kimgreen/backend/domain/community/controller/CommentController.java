@@ -21,8 +21,16 @@ public class CommentController {
     @Operation(summary = "댓글 작성")
     @ResponseStatus(OK)
     @PatchMapping("/write-comment")
-    public Response changeAlarm(@RequestParam Long postId, @RequestBody PostCommentDto postCommentDto) {
+    public Response postComment(@RequestParam Long postId, @RequestBody PostCommentDto postCommentDto) {
         commentService.postComment(postId, postCommentDto);
         return success(POST_COMMENT_SUCCESS);
+    }
+
+    @Operation(summary = "댓글 삭제")
+    @ResponseStatus(OK)
+    @PatchMapping("/delete-comment")
+    public Response deleteComment(@RequestParam Long commentId){
+        commentService.deleteComment(commentId);
+        return success(DELETE_COMMENT_SUCCESS);
     }
 }
