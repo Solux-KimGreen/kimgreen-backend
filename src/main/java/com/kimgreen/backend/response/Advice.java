@@ -51,5 +51,16 @@ public class Advice {
         return Response.failure(HttpStatus.INTERNAL_SERVER_ERROR,"JSON 변환 에러");
     }
 
+    @ExceptionHandler(TokenNotValid.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Response TokenNotValidResponse() {
+        return Response.failure(HttpStatus.UNAUTHORIZED,"토큰이 유효하지 않습니다.");
+    }
+    @ExceptionHandler(TokenNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response TokenNotFoundResponse() {
+        return Response.failure(HttpStatus.NOT_FOUND,"토큰이 없습니다.");
+    }
+
 
 }

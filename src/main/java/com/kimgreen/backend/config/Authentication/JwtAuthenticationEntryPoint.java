@@ -2,6 +2,7 @@ package com.kimgreen.backend.config.Authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.kimgreen.backend.exception.TokenNotValid;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,19 +29,20 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         if(exception!=null) {
             if (exception.equals(EXPIRED)) {
-                setResponse(response, EXPIRED);
+                setResponse(response,HttpStatus.UNAUTHORIZED.value(),"토큰이 유효하지 않습니다.");
             }
             if (exception.equals(DENIED)) {
-                setResponse(response, DENIED);
+                setResponse(response,HttpStatus.NOT_FOUND.value(), "토큰이 없습니다.");
             }
         }
 
     }
 
-    public void setResponse(HttpServletResponse response,String msg) throws IOException{
+    public void setResponse(HttpServletResponse response,int status,String msg) throws IOException{
         ObjectNode json = new ObjectMapper().createObjectNode();
+        json.put("status",status);
+        json.put("success", false);
         json.put("message", msg);
-        json.put("code", HttpStatus.UNAUTHORIZED.value());
         String newResponse = new ObjectMapper().writeValueAsString(json);
         response.getWriter().write(newResponse);
     }
