@@ -58,7 +58,6 @@ jobs:
         with:
           host: ${{ secrets.HOST}} # EC2 퍼블릭 IPv4 DNS
           username: ${{ secrets.USERNAME }} # ubuntu
-          password: ${{ secrets.PASSWORD }}
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
             sudo docker ps
