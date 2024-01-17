@@ -15,6 +15,4 @@ public class SettingInfoResponseDto {
     private String profileBadge;
     private String profileBadgeImg;
     private boolean commentAgreement;
-    private boolean likeAgreement;
-
 }
