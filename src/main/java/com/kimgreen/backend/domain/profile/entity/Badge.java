@@ -95,6 +95,8 @@ public class Badge extends AuditEntity {
     @Column(name="etc_10_is_achieved",columnDefinition = "boolean default false")
     private boolean etc10IsAchieved;
 
+    @Column(name="sprout_is_achieved", columnDefinition = "boolean default true")
+    private boolean sproutIsAchieved;
 
     @Column(name="adventurer_is_achieved",columnDefinition = "boolean default false")
     private boolean adventurerIsAchieved;

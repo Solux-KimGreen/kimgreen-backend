@@ -146,6 +146,8 @@ public class BadgeService {
     public Map<BadgeList,Boolean> getMap(Badge badge) {
         Map<BadgeList,Boolean> map = new LinkedHashMap<>();
 
+        if(badge.isSproutIsAchieved()) {map.put(BadgeList.SPROUT,true);}
+        else {map.put(BadgeList.SPROUT,false);}
         if(badge.isCertification10IsAchieved()){map.put(BadgeList.NORANG,true);}
         else {map.put(BadgeList.NORANG,false);}
         if(badge.isCertification20IsAchieved()){map.put(BadgeList.YEONDU,true);}
@@ -198,6 +200,7 @@ public class BadgeService {
         Map<BadgeList,Integer> map = new LinkedHashMap<>();
         for(BadgeList badges: badgeMap.keySet()) {
             if(badgeMap.get(badges)==false) {
+                if(badges.equals(BadgeList.SPROUT)) {map.put(BadgeList.SPROUT,-1);}
                 if(badges.equals(BadgeList.NORANG)) {map.put(BadgeList.NORANG,badge.getCertificationCount());}
                 if(badges.equals(BadgeList.YEONDU)) {map.put(BadgeList.YEONDU,badge.getCertificationCount());}
                 if(badges.equals(BadgeList.GREEN)) {map.put(BadgeList.GREEN,badge.getCertificationCount());}
