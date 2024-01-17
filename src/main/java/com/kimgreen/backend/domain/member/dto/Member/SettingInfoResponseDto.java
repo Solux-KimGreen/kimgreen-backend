@@ -12,13 +12,7 @@ import lombok.NoArgsConstructor;
 public class SettingInfoResponseDto {
     private String nickname;
     private String profileImg;
-
     private String profileBadge;
     private String profileBadgeImg;
     private boolean commentAgreement;
-
-    private String badge;
-    private String badgeImg;
-    private boolean commentAlarm;
-    private boolean likeAlarm;
 }
