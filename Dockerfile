@@ -10,10 +10,10 @@ COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
 
 # 1. Dockerfile 기반 이미지 생성
-#docker build -t kimgreen .
+#docker build -t gol2580/kimgreen .
 
 # 2. 이미지 기반 컨테이너 실행
-#  docker run -d -p 8080:8080 kimgreen
+#  docker run -d -p 8080:8080 gol2580/kimgreen
 
 # 3. docker hub에 push
 # docker push gol2580/kimgreen
