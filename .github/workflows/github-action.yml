@@ -58,9 +58,9 @@ jobs:
       - name: Deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.HOST}} # EC2 퍼블릭 IPv4 DNS
-          username: ${{ secrets.USERNAME }} # ubuntu-latest
-          key: ${{ secrets.PRIVATE_KEY }} # private key test
+          host: ${{ secrets.HOST}} # EC2 퍼블릭 IPv4
+          username: ${{ secrets.USERNAME }} # ec2-user
+          key: ${{ secrets.PRIVATE_KEY }} # .pem
           script: |
             sudo docker ps
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/kimgreen
