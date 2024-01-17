@@ -23,6 +23,11 @@ public class Badge extends AuditEntity {
     @JoinColumn(name="member_id")
     private Member member;
 
+    @Column(name="earlybird_count",columnDefinition = "int default 0" )
+    private int earlybirdCount;
+    @Column(name="ealrybird_is_achieved",columnDefinition = "boolean default false")
+    private boolean earlybirdIsAchieved;
+
     @Column(name="mentor_count",columnDefinition = "int default 0")
     private int mentorCount;
     @Column(name="mentor_is_achieved",columnDefinition = "boolean default false")
@@ -43,66 +48,52 @@ public class Badge extends AuditEntity {
 
     @Column(name="receipt_count",columnDefinition = "int default 0")
     private int receiptCount;
+    @Column(name="receipt_3_is_achieved",columnDefinition = "boolean default false")
+    private boolean receipt3IsAchieved;
     @Column(name="receipt_10_is_achieved",columnDefinition = "boolean default false")
     private boolean receipt10IsAchieved;
-    @Column(name="receipt_20_is_achieved",columnDefinition = "boolean default false")
-    private boolean receipt20IsAchieved;
-    @Column(name="receipt_50_is_achieved",columnDefinition = "boolean default false")
-    private boolean receipt50IsAchieved;
 
     @Column(name="reusable_count",columnDefinition = "int default 0")
     private int reusableCount;
+    @Column(name="reusable_3_is_achieved",columnDefinition = "boolean default false")
+    private boolean reusable3IsAchieved;
     @Column(name="reusable_10_is_achieved",columnDefinition = "boolean default false")
     private boolean reusable10IsAchieved;
-    @Column(name="reusable_20_is_achieved",columnDefinition = "boolean default false")
-    private boolean reusable20IsAchieved;
-    @Column(name="reusable_50_is_achieved",columnDefinition = "boolean default false")
-    private boolean reusable50IsAchieved;
 
     @Column(name="plastic_count",columnDefinition = "int default 0")
     private int plasticCount;
+    @Column(name="plastic_3_is_achieved",columnDefinition = "boolean default false")
+    private boolean plastic3IsAchieved;
     @Column(name="plastic_10_is_achieved",columnDefinition = "boolean default false")
     private boolean plastic10IsAchieved;
-    @Column(name="plastic_20_is_achieved",columnDefinition = "boolean default false")
-    private boolean plastic20IsAchieved;
-    @Column(name="plastic_50_is_achieved",columnDefinition = "boolean default false")
-    private boolean plastic50IsAchieved;
 
     @Column(name="plogging_count",columnDefinition = "int default 0")
     private int ploggingCount;
+    @Column(name="plogging_3_is_achieved",columnDefinition = "boolean default false")
+    private boolean plogging3IsAchieved;
     @Column(name="plogging_10_is_achieved",columnDefinition = "boolean default false")
     private boolean plogging10IsAchieved;
-    @Column(name="plogging_20_is_achieved",columnDefinition = "boolean default false")
-    private boolean plogging20IsAchieved;
-    @Column(name="plogging_50_is_achieved",columnDefinition = "boolean default false")
-    private boolean plogging50IsAchieved;
 
     @Column(name="reform_count",columnDefinition = "int default 0")
     private int reformCount;
+    @Column(name="reform_3_is_achieved",columnDefinition = "boolean default false")
+    private boolean reform3IsAchieved;
     @Column(name="reform_10_is_achieved",columnDefinition = "boolean default false")
     private boolean reform10IsAchieved;
-    @Column(name="reform_20_is_achieved",columnDefinition = "boolean default false")
-    private boolean reform20IsAchieved;
-    @Column(name="reform_50_is_achieved",columnDefinition = "boolean default false")
-    private boolean reform50IsAchieved;
 
     @Column(name="transport_count",columnDefinition = "int default 0")
     private int transportCount;
+    @Column(name="transport_3_is_achieved",columnDefinition = "boolean default false")
+    private boolean transport3IsAchieved;
     @Column(name="transport_10_is_achieved",columnDefinition = "boolean default false")
     private boolean transport10IsAchieved;
-    @Column(name="transport_20_is_achieved",columnDefinition = "boolean default false")
-    private boolean transport20IsAchieved;
-    @Column(name="transport_50_is_achieved",columnDefinition = "boolean default false")
-    private boolean transport50IsAchieved;
 
     @Column(name="etc_count",columnDefinition = "int default 0")
     private int etcCount;
+    @Column(name="etc_3_is_achieved",columnDefinition = "boolean default false")
+    private boolean etc3IsAchieved;
     @Column(name="etc_10_is_achieved",columnDefinition = "boolean default false")
     private boolean etc10IsAchieved;
-    @Column(name="etc_20_is_achieved",columnDefinition = "boolean default false")
-    private boolean etc20IsAchieved;
-    @Column(name="etc_50_is_achieved",columnDefinition = "boolean default false")
-    private boolean etc50IsAchieved;
 
 
     @Column(name="adventurer_is_achieved",columnDefinition = "boolean default false")
@@ -110,4 +101,5 @@ public class Badge extends AuditEntity {
 
     @Column(name="golden_is_achieved",columnDefinition = "boolean default false")
     private boolean goldenIsAchieved;
+
 }

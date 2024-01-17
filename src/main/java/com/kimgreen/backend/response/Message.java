@@ -8,4 +8,7 @@ public class Message {
     public static String CHANGE_ALARM_SUCCESS="알림 설정 변경 성공했습니다.";
     public static String DELETE_MEMBER_SUCCESS="탈퇴하기 성공했습니다.";
 
+
+    public static String SUCCESS_TO_WRITE_POST="인증 게시글 작성 성공했습니다.";
+
 }

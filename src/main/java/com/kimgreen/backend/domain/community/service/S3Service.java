@@ -22,8 +22,8 @@ public class S3Service {
     private String bucket;
 
     public String saveFile(MultipartFile multipartFile) throws IOException {
-        String originalFilename = multipartFile.getOriginalFilename();
-        String createdFilename = createFileName(originalFilename);
+        String originalFilename = multipartFile.getOriginalFilename(); //사용자가 업로드한 파일명
+        String createdFilename = createFileName(originalFilename); //겹치지 않게 랜덤 파일명 생성
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(multipartFile.getSize());
@@ -31,10 +31,6 @@ public class S3Service {
 
         amazonS3.putObject(bucket, createdFilename, multipartFile.getInputStream(), metadata);
 
-        uploadDB(PostImg.builder()
-                .imgUrl(createdFilename)
-                .title(originalFilename)
-                .build());
         //return amazonS3.getUrl(bucket, createdFilename).toString(); //key?
         return createdFilename; //createdFilename = key : S3URL+key 형식으로 불러오면 됨
     }
