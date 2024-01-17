@@ -42,15 +42,6 @@ public class MemberService {
     }
 
     @Transactional
-    public void changeAlarm(String type) {
-        if(type.equals("c")) {
-            changeCommentAlarm();
-        } else if(type.equals("l")) {
-            changeLikeAlarm();
-        }
-    }
-
-    @Transactional
     public void deleteMember(DeleteMemberRequestDto dto) {
         Member member = getCurrentMember();
         validatePassword(dto.getPassword(),member);
@@ -78,6 +69,7 @@ public class MemberService {
             member.changeCommentAlarm(true);
         }
     }
+    /*
     @Transactional
     public void changeLikeAlarm() {
         Member member = getCurrentMember();
@@ -87,6 +79,7 @@ public class MemberService {
             member.changeLikeAlarm(true);
         }
     }
+     */
 
     @Transactional
     public void changeNickname(String nickname) {
@@ -126,7 +119,6 @@ public class MemberService {
                 .profileBadge(representativeBadge.getRepresentativeBadge().name)
                 .profileBadgeImg(badgeUrl)
                 .commentAgreement(member.isCommentAlarm())
-                .likeAgreement(member.isLikeAlarm())
                 .build();
     }
 

@@ -49,10 +49,11 @@ public class Member extends AuditEntity {
 
     @Column(name="comment_alarm",columnDefinition = "boolean default false")
     private boolean commentAlarm;
-    @Column(name="like_alarm",columnDefinition = "boolean default false")
-    private boolean likeAlarm;
+    //@Column(name="like_alarm",columnDefinition = "boolean default false")
+    //private boolean likeAlarm;
     @Enumerated(EnumType.STRING)
     private Role role;
+
 
     public void changePassword(String newPassword) {
         this.password = newPassword;
@@ -62,5 +63,7 @@ public class Member extends AuditEntity {
     }public void changeLikeAlarm(boolean b) {
         this.likeAlarm = b;
     }
+
+    public void changeNickname(String nickname) { this.nickname = nickname; }
 
 }
