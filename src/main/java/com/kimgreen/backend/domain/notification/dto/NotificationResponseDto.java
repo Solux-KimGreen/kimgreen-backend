@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 public class NotificationResponseDto {
     private Long postId;
-    private String createdAt;
+    private LocalDateTime createdAt;
     private String content;
 
     public static NotificationResponseDto getDto(Notification notification) {

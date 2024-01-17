@@ -19,18 +19,20 @@ import java.time.format.DateTimeFormatter;
 public class AuditEntity {
 
     @CreatedDate
-    private String createdAt;
+    private LocalDateTime createdAt;
     @LastModifiedDate
-    private String modifiedAt;
+    private LocalDateTime modifiedAt;
 
     @PrePersist
     public void prePersist() {
-        this.createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        String formattedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        this.createdAt = LocalDateTime.parse(formattedDate,DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         this.modifiedAt = this.createdAt;
     }
 
     @PreUpdate
     public void onUpdate() {
-        this.modifiedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        String formattedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        this.modifiedAt = LocalDateTime.parse(formattedDate,DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
  }
