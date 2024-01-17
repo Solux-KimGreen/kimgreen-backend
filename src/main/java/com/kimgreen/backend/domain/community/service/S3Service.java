@@ -27,8 +27,8 @@ public class S3Service {
 
     //post에 첨부되는 이미지 업로드
     public String saveFile(MultipartFile multipartFile) throws IOException {
-        String originalFilename = multipartFile.getOriginalFilename();
-        String createdFilename = createFileName(originalFilename);
+        String originalFilename = multipartFile.getOriginalFilename(); //사용자가 업로드한 파일명
+        String createdFilename = createFileName(originalFilename); //겹치지 않게 랜덤 파일명 생성
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(multipartFile.getSize());
@@ -69,7 +69,6 @@ public class S3Service {
         String fileExtension = fileName.substring(fileName.lastIndexOf("."));
         return UUID.randomUUID().toString()+fileExtension;
     }
-
     //실제 주소 얻기
     public String getFullUrl(String key) {
         return amazonS3.getUrl(bucket,key).toString();

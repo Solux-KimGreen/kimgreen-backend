@@ -24,4 +24,7 @@ public class Message {
     public static String DELETE_COMMENT_SUCCESS="댓글 삭제 성공했습니다.";
     public static String GET_COMMENT_SUCCESS="댓글 목록을 불러오는데 성공하였습니다.";
 
+
+    public static String SUCCESS_TO_WRITE_POST="인증 게시글 작성 성공했습니다.";
+
 }

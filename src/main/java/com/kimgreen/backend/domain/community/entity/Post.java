@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Getter
@@ -45,5 +46,4 @@ public class Post extends AuditEntity {
     private Category category;
     @Enumerated(EnumType.STRING)
     private Tag tag;
-
 }
