@@ -17,3 +17,4 @@ ENTRYPOINT ["java", "-jar", "/app.jar"]
 
 # 3. docker hub에 push
 # docker push gol2580/kimgreen
+# test1
