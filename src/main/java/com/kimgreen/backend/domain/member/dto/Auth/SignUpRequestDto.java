@@ -20,7 +20,7 @@ public class SignUpRequestDto {
                 .email(email)
                 .password(password)
                 .nickname(nickname)
-                .commentAlarm(false).likeAlarm(false)
+                .commentAlarm(false)
                 .role(Role.ROLE_USER)
                 .build();
     }

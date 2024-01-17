@@ -30,8 +30,8 @@ public class MemberController {
     @Operation(summary = "댓글 알림 변경")
     @ResponseStatus(OK)
     @PatchMapping("/alarm")
-    public Response changeAlarm(@RequestParam String type) {
-        memberService.changeAlarm(type);
+    public Response changeAlarm() {
+        memberService.changeCommentAlarm();
         return success(CHANGE_ALARM_SUCCESS);
     }
 
