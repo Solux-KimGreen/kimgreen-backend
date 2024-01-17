@@ -19,14 +19,14 @@ jobs:
 
     # github action 내부에서 쓰는 변
     env:
-      DATASOURCE_URL_RDS:  ${{ secrets.DATASOURCE_URL_RDS }}
-      DATASOURCE_USERNAME_RDS: ${{ secrets.DATASOURCE_USERNAME_RDS }}
-      jwt.secret-key: ${{ secrets.jwt.secret-key }}
-      aws.credentials.access-key: ${{ secrets. aws.credentials.access-key }}
-      aws.credentials.secret-key: ${{ secrets.aws.credentials.secret-key }}
-      aws.region.static: ${{ secrets.aws.region.static }}
-      aws.s3.bucket: ${{ secrets.aws.s3.bucket }}
-      fcm.url: ${{ secrets.fcm.url }}
+      #DATASOURCE_URL_RDS:  ${{ secrets.DATASOURCE_URL_RDS }}
+      #DATASOURCE_USERNAME_RDS: ${{ secrets.DATASOURCE_USERNAME_RDS }}
+      #jwt.secret-key: ${{ secrets.jwt.secret-key }}
+      #aws.credentials.access-key: ${{ secrets. aws.credentials.access-key }}
+      #aws.credentials.secret-key: ${{ secrets.aws.credentials.secret-key }}
+      #aws.region.static: ${{ secrets.aws.region.static }}
+      #aws.s3.bucket: ${{ secrets.aws.s3.bucket }}
+      #fcm.url: ${{ secrets.fcm.url }}
 
     
     steps:
