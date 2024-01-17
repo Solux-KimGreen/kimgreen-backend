@@ -19,6 +19,7 @@ public class Message {
     public static String GET_COLLECTED_BADGE_INFO="획득뱃지 상세정보 불러오기 성공했습니다.";
     public static String GET_NOT_COLLECTED_BADGE_INFO="미획득 뱃지 상세정보 불러오기 성공했습니다.";
     public static String SUCCESS_GET_NOTIFICATION ="푸시알림 내역 보기 성공했습니다.";
+    public static String POST_REPORT_SUCCESS="게시글 신고하기 성공했습니다.";
 
     
 }

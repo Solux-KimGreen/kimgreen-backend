@@ -14,7 +14,7 @@ public class Advice {
     @ResponseStatus(HttpStatus.CONFLICT)
     public Response DuplicateEmailResponse() {
         return Response.failure(HttpStatus.CONFLICT, "중복 이메일입니다.");
-}
+    }
 
     @ExceptionHandler(LogInFailureEmail.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -61,5 +61,9 @@ public class Advice {
     public Response TokenNotFoundResponse() {
         return Response.failure(HttpStatus.NOT_FOUND,"토큰이 없습니다.");
     }
+
+    @ExceptionHandler(PostNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response PostNotFoundResponse(){return Response.failure(HttpStatus.NOT_FOUND, "요청한 게시글을 찾을 수 없습니다.");}
 
 }
