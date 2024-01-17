@@ -1,7 +1,8 @@
 package com.kimgreen.backend.domain.community.entity;
 
 public enum Reason {
-    WRONG_CATEGORY("잘못된 카테고리");
+    FAKE("거짓 정보"),
+    ETC("기타");
 
     private String content;
     private Reason(String content) {
