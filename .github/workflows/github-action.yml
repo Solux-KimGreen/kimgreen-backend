@@ -34,14 +34,14 @@ jobs:
           touch ./security.properties 
           
           # GitHub-Actions에서 설정한 값을 security.properties 파일에 쓰기
-          echo "${{ secrets.PROPERTIES }}" > ./security.properties 
+          echo "${{ secrets.USERNAME }}" > ./security.properties 
         shell: bash
         
       - name: create firebase key
         run: |
           cd ./src/main/resources
           touch ./kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
-          echo "${{ secrets.FIREBASE_KEY }}" > ./kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
+          echo "${{ secrets.USERNAME }}" > ./kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
 
       - name: Build with Gradle
         run: |
@@ -64,6 +64,6 @@ jobs:
           script: |
             sudo docker ps
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/kimgreen
-            sudo docker run -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/kimgreen
+            sudo docker run -d --name server -e TZ=Asia/Seoul -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/kimgreen
             sudo docker image prune -f
             
