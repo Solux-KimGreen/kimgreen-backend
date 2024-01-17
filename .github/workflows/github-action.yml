@@ -59,7 +59,7 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST}} # EC2 퍼블릭 IPv4 DNS
-          username: ${{ secrets.USERNAME }}
+          username: ${{ secrets.USERNAME }} # ubuntu-latest
           key: ${{ secrets.PRIVATE_KEY }} # private key test
           script: |
             sudo docker ps
