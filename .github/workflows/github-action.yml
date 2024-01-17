@@ -44,7 +44,9 @@ jobs:
           echo "${{ secrets.FIREBASE_KEY }}" > ./kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
 
       - name: Build with Gradle
-        run: ./gradlew build -x test
+        run: |
+          chmod +x ./gradlew
+          ./gradlew build -x test
 
 
       - name: Docker build & push
