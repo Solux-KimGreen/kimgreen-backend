@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # github action 내부에서 쓰는 변
-    env:
+    #env:
       #DATASOURCE_URL_RDS:  ${{ secrets.DATASOURCE_URL_RDS }}
       #DATASOURCE_USERNAME_RDS: ${{ secrets.DATASOURCE_USERNAME_RDS }}
       #jwt.secret-key: ${{ secrets.jwt.secret-key }}
