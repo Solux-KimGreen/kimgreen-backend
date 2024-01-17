@@ -23,7 +23,8 @@ public enum BadgeList {
     ETC_3("아마추어 기타리스트",3,"amateur_guitarist.png","기타 인증글 3회 이상",20),
     ETC_10("프로 기타리스트",10,"pro_guitarist.png","기타 인증글 10회 이상",21),
     ADVENTURER("환경 모험가","adventurer.png","각 카테고리별 인증글 1회 이상",22),
-    DOCTOR("김그린 박사","doctor.png",23),
+    SPROUT("새싹 김그린","eco_friend.png","튜토리얼 1회 열람",23),
+    //DOCTOR("김그린 박사","doctor.png",23),
     GOLDEN_KIMGREEN("황금 김그린","golden_kimgreen.png","모든 뱃지 획득",24);
 
     public String name;
