@@ -16,6 +16,19 @@ on:
 jobs:
   CI-CD:
     runs-on: ubuntu-latest
+
+    # github action 내부에서 쓰는 변
+    env:
+      DATASOURCE_URL_RDS:  ${{ secrets.DATASOURCE_URL_RDS }}
+      DATASOURCE_USERNAME_RDS: ${{ secrets.DATASOURCE_USERNAME_RDS }}
+      jwt.secret-key: ${{ secrets.jwt.secret-key }}
+      aws.credentials.access-key: ${{ secrets. aws.credentials.access-key }}
+      aws.credentials.secret-key: ${{ secrets.aws.credentials.secret-key }}
+      aws.region.static: ${{ secrets.aws.region.static }}
+      aws.s3.bucket: ${{ secrets.aws.s3.bucket }}
+      fcm.url: ${{ secrets.fcm.url }}
+
+    
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -24,18 +37,25 @@ jobs:
           java-version: '17'
           distribution: 'temurin' # https://github.com/actions/setup-java
 
-      
-        ## create security.properties
-      - name: make security.properties
+      ## create env file
+      - name: create env file
         run: |
-          cd ./src/main/resources 
+          touch .env
+          echo "${{ secrets.PROPERTIES }}" >> .env
+            
+
+      
+        ## delete : create security.properties
+        ##- name: make security.properties
+        ##run: |
+        ##cd ./src/main/resources 
           
           # security.properties 파일 생성
-          touch ./security.properties 
+          ##touch ./security.properties 
           
           # GitHub-Actions에서 설정한 값을 security.properties 파일에 쓰기
-          echo "${{ secrets.USERNAME }}" > ./security.properties 
-        shell: bash
+          ##echo "${{ secrets.USERNAME }}" > ./security.properties 
+        ##shell: bash
         
       - name: create firebase key
         run: |
@@ -64,6 +84,6 @@ jobs:
           script: |
             sudo docker ps
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/kimgreen
-            sudo docker run -d --name server -e TZ=Asia/Seoul -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/kimgreen
+            sudo docker-compose up -d
             sudo docker image prune -f
             
