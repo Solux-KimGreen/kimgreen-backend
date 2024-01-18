@@ -84,6 +84,6 @@ jobs:
           script: |
             sudo docker ps
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/kimgreen
-            sudo docker run -d --name server -e TZ=Asia/Seoul -e DATASOURCE_URL_RDS=${{ secrets.DATASOURCE_URL_RDS }} -e DATASOURCE_USERNAME_RDS=${{ secrets.DATASOURCE_USERNAME_RDS }} -e DATASOURCE_PASSWORD_RDS=${{ secrets.DATASOURCE_PASSWORD_RDS }} -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} -e AWS_CREDENTIALS_ACCESS_KEY=${{ secrets.AWS_CREDENTIALS_ACCESS_KEY }} -e AWS_CREDENTIALS_SECRET_KEY=${{ secrets.AWS_CREDENTIALS_SECRET_KEY }} -e AWS_REGION_STATIC=${{ secrets.AWS_REGION_STATIC }} -e AWS_S3_BUCKET=${{ secrets.AWS_S3_BUCKET }} -e FCM_URL=${{ secrets.FCM_URL }}  -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/kimgreen
+            sudo docker run -d \--name server \-e TZ=Asia/Seoul \-e DATASOURCE_URL_RDS=${{ secrets.DATASOURCE_URL_RDS }} \-e DATASOURCE_USERNAME_RDS=${{ secrets.DATASOURCE_USERNAME_RDS }} \-e DATASOURCE_PASSWORD_RDS=${{ secrets.DATASOURCE_PASSWORD_RDS }} \-e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \-e AWS_CREDENTIALS_ACCESS_KEY=${{ secrets.AWS_CREDENTIALS_ACCESS_KEY }} \-e AWS_CREDENTIALS_SECRET_KEY=${{ secrets.AWS_CREDENTIALS_SECRET_KEY }} \-e AWS_REGION_STATIC=${{ secrets.AWS_REGION_STATIC }} \-e AWS_S3_BUCKET=${{ secrets.AWS_S3_BUCKET }} \-e FCM_URL=${{ secrets.FCM_URL }}  \-p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/kimgreen
             sudo docker image prune -f
             
