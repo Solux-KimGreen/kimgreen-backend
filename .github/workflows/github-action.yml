@@ -76,6 +76,6 @@ jobs:
             sudo systemctl start docker
             sudo docker ps
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/kimgreen
-            sudo docker-compose up -d
+            docker-compose up -d
             sudo docker image prune -f
             
