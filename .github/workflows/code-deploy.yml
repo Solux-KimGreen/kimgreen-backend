@@ -32,15 +32,16 @@ jobs:
       ##   create env file
       - name: create env file
         run: |
-          touch ./src/main/resources/security.properties
-          echo "${{ secrets.PROPERTIES }}" > ./security.properties
-          cat ./security.properties
+          cd ./src/main/resources
+          touch security.properties
+          echo "${{ secrets.PROPERTIES }}" > security.properties
 
       ## create firebase key
       - name: create firebase key
         run: |
-          touch ./src/main/resources/kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
-          echo "${{ secrets.FIREBASE_KEY }}" > ./kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
+          cd ./src/main/resources
+          touch kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
+          echo "${{ secrets.FIREBASE_KEY }}" > kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
 
         # 에러발생 : 권한부여
       - name: Run chomod to make gradlew executable
