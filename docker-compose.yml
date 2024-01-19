@@ -9,12 +9,12 @@ services:
       DATASOURCE_URL_RDS=${DATASOURCE_URL_RDS}
       DATASOURCE_USERNAME_RDS=${DATASOURCE_USERNAME_RDS}
       DATASOURCE_PASSWORD_RDS=${DATASOURCE_PASSWORD_RDS}
-      jwt.secret-key=${jwt.secret-key}
-      aws.credentials.access-key=${aws.credentials.access-key}
-      aws.credentials.secret-key=${aws.credentials.secret-key}
-      aws.region.static=${aws.region.static}
-      aws.s3.bucket=${aws.s3.bucket}
-      fcm.url=${fcm.url}
+      JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      AWS_CREDENTIALS_ACCESS_KEY=${AWS_CREDENTIALS_ACCESS_KEY}
+      AWS_CREDENTIALS_SECRET_KEY=${AWS_CREDENTIALS_SECRET_KEY}
+      AWS_REGION_STATIC=${AWS_REGION_STATIC}
+      AWS_S3_BUCKET=${AWS_S3_BUCKET}
+      FCM_URL=${FCM_URL}
       TZ=Asia/Seoul
     env_file:
       - .env
