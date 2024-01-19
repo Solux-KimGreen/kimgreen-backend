@@ -32,15 +32,16 @@ jobs:
       ##   create env file
       - name: create env file
         run: |
-          touch ./src/main/resources/security.properties
-          echo "${{ secrets.PROPERTIES }}" > ./security.properties
-          cat ./security.properties
+          cd ./src/main/resources
+          touch security.properties
+          echo "${{ secrets.PROPERTIES }}" > security.properties
 
       ## create firebase key
       - name: create firebase key
         run: |
-          touch ./src/main/resources/kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
-          echo "${{ secrets.FIREBASE_KEY }}" > ./kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
+          cd ./src/main/resources
+          touch kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
+          echo "${{ secrets.FIREBASE_KEY }}" > kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
 
         # 에러발생 : 권한부여
       - name: Run chomod to make gradlew executable
@@ -67,4 +68,4 @@ jobs:
         run: aws s3 cp --region ${{ secrets.AWS_REGION }} ./$GITHUB_SHA.zip s3://${{ secrets.S3_BUCKET_NAME }}/$GITHUB_SHA.zip
 
       - name: Code Deploy
-        run: aws deploy create-deployment --application-name ${{ secrets.AWS_APP_NAME }} --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name ${{ secrets.AWS_GROUP_NAME }} --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=zip,key=${{ secrets.S3_BUCKET_NAME }}/$GITHUB_SHA.zip
+        run: aws deploy create-deployment --application-name ${{ secrets.AWS_APP_NAME }} --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name ${{ secrets.AWS_GROUP_NAME }} --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=zip,key=$GITHUB_SHA.zip
