@@ -2,7 +2,8 @@ REPOSITORY=/home/ec2-user/app
 cd $REPOSITORY
 
 APP_NAME=kimgreen
-JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep '.jar' | head -n 1)
+#JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep '.jar' | head -n 1)
+JAR_NAME=/home/ec2-user/app/build/libs/backend-0.0.1-SNAPSHOT.jar
 JAR_PATH=$REPOSITORY/build/libs/$JAR_NAME
 
 CURRENT_PID=$(pgrep -f $APP_NAME)
