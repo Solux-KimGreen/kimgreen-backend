@@ -17,4 +17,4 @@ else
 fi
 
 echo "> $JAR_PATH 배포" #3
-nohup java -jar $JAR_PATH.jar &
+nohup java -jar $JAR_NAME &
