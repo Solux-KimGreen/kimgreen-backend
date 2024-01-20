@@ -20,6 +20,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +39,7 @@ public class MemberService {
     private final S3Service s3Service;
     private final FCMTokenRepository fcmTokenRepository;
     private final PasswordEncoder passwordEncoder;
+
 
 
     public Member getCurrentMember() {

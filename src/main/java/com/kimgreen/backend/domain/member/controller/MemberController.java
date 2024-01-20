@@ -2,13 +2,18 @@ package com.kimgreen.backend.domain.member.controller;
 
 import com.kimgreen.backend.domain.member.dto.Auth.DeleteMemberRequestDto;
 import com.kimgreen.backend.domain.member.dto.Auth.SignUpRequestDto;
+import com.kimgreen.backend.domain.member.dto.Member.NicknameRequestDto;
 import com.kimgreen.backend.domain.member.service.MemberService;
 import com.kimgreen.backend.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 import static com.kimgreen.backend.response.Message.*;
 import static com.kimgreen.backend.response.Response.success;
@@ -67,4 +72,6 @@ public class MemberController {
     public Response getMemberInfo() {
         return success(GET_MEMBER_INFO, memberService.getMemberInfo());
     }
+
+
 }

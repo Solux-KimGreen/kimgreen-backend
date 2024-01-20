@@ -27,9 +27,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json; charset=UTF-8");
 
-        if(exception.equals(EXPIRED)) {
-            setResponse(response,EXPIRED);
-
         if(exception!=null) {
             if (exception.equals(EXPIRED)) {
                 setResponse(response,HttpStatus.UNAUTHORIZED.value(),"토큰이 유효하지 않습니다.");
@@ -38,6 +35,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 setResponse(response,HttpStatus.NOT_FOUND.value(), "토큰이 없습니다.");
             }
         }
+
     }
 
     public void setResponse(HttpServletResponse response,int status,String msg) throws IOException{

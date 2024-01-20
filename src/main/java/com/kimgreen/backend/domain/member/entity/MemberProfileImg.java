@@ -25,4 +25,13 @@ public class MemberProfileImg extends AuditEntity {
     //기본이미지 url 넣기
     @Column(name="img_url")
     private String imgUrl;
+
+    @Column(name="title")
+    private String title;
+
+    public void changeProfileImg(String imgUrl,String title) {
+        this.imgUrl = imgUrl;
+        this.title = title;
+    }
+
 }

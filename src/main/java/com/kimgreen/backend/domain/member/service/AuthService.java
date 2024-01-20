@@ -9,6 +9,7 @@ import com.kimgreen.backend.domain.member.dto.Auth.SignUpRequestDto;
 import com.kimgreen.backend.domain.member.dto.Auth.TokenDto;
 import com.kimgreen.backend.domain.member.entity.Member;
 import com.kimgreen.backend.domain.member.entity.RefreshToken;
+import com.kimgreen.backend.domain.member.repository.MemberProfileImgRepository;
 import com.kimgreen.backend.domain.member.repository.MemberRepository;
 import com.kimgreen.backend.domain.member.repository.RefreshTokenRepository;
 import com.kimgreen.backend.domain.profile.entity.Badge;
@@ -37,6 +38,7 @@ import org.springframework.util.StringUtils;
 public class AuthService {
 
     private final MemberRepository memberRepository;
+    private final MemberProfileImgRepository profileImgRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final BadgeRepository badgeRepository;
     private final ProfileBadgeRepository profileBadgeRepository;
@@ -55,8 +57,6 @@ public class AuthService {
         String nickname = signUpRequestDto.getName();
 
         validateEmail(email);
-
-        memberRepository.save(signUpRequestDto.toMemberEntity(email, passwordEncoder.encode(password),nickname));
         saveMember(signUpRequestDto,email, password, nickname);
     }
 
