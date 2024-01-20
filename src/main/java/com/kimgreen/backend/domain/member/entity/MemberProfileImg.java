@@ -33,5 +33,4 @@ public class MemberProfileImg extends AuditEntity {
         this.imgUrl = imgUrl;
         this.title = title;
     }
-
 }
