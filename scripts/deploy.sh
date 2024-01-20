@@ -18,4 +18,4 @@ else
 fi
 
 echo "> $JAR_PATH 배포" #3
-nohup java -jar $JAR_NAME &
+nohup java -jar $JAR_NAME > /home/ec2-user/nohup.out 2> /dev/null &
