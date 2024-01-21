@@ -7,9 +7,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DATASOURCE_URL}
-    username: ${DATASOURCE_USERNAME}
-    password: ${DATASOURCE_PASSWORD}
+    url: ${DATASOURCE_URL_RDS}
+    username: ${DATASOURCE_USERNAME_RDS}
+    password: ${DATASOURCE_PASSWORD_RDS}
 
   jpa:
     show-sql: true
@@ -50,3 +50,11 @@ cloud:
       auto: false
     stack:
       auto: false
+
+
+# fcm : for push alarm
+fcm:
+  key:
+    path: kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
+    scope: https://www.googleapis.com/auth/cloud-platform
+

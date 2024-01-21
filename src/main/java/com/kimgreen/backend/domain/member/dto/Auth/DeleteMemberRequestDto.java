@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LogInRequestDto {
-    private String email;
+public class DeleteMemberRequestDto {
     private String password;
-    //private String fcmToken;
 }

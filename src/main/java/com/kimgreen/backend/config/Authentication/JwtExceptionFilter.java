@@ -20,8 +20,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response); // go to 'JwtAuthenticationFilter'
         } catch (JwtException ex) {
-            System.out.println("in t");
-            setErrorResponse(HttpStatus.UNAUTHORIZED, response, ex);
+            ex.printStackTrace();
         }
 
     }

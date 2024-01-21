@@ -1,5 +1,6 @@
 package com.kimgreen.backend.domain.member.controller;
 
+import com.kimgreen.backend.domain.member.dto.Auth.DeleteMemberRequestDto;
 import com.kimgreen.backend.domain.member.dto.Auth.SignUpRequestDto;
 import com.kimgreen.backend.domain.member.dto.Member.NicknameRequestDto;
 import com.kimgreen.backend.domain.member.service.MemberService;
@@ -29,16 +30,16 @@ public class MemberController {
     @Operation(summary = "댓글 알림 변경")
     @ResponseStatus(OK)
     @PatchMapping("/alarm")
-    public Response changeAlarm(@RequestParam String type) {
-        memberService.changeAlarm(type);
+    public Response changeAlarm() {
+        memberService.changeCommentAlarm();
         return success(CHANGE_ALARM_SUCCESS);
     }
 
     @Operation(summary = "회원 탈퇴")
     @ResponseStatus(OK)
     @DeleteMapping()
-    public Response deleteMember() {
-        memberService.deleteMember();
+    public Response deleteMember(@RequestBody DeleteMemberRequestDto deleteMemberRequestDto) {
+        memberService.deleteMember(deleteMemberRequestDto);
         return success(DELETE_MEMBER_SUCCESS);
     }
 

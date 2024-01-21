@@ -11,9 +11,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CollectedBadgeResponseDto {
-    private String badge;
+public class NotCollectedBadgeResponseDto {
     private String badgeImg;
+    private String content;
+    private int completeCount;
+    private int goal;
+
 
 }
-

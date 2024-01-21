@@ -14,6 +14,9 @@ public class Message {
     public static String CHANGE_REPRESENTATIVE_BADGE_SUCCESS="대표뱃지 설정 성공했습니다.";
     public static String CHANGE_PROFILE_BADGE_SUCCESS="프로필뱃지 선택 성공했습니다.";
     public static String GET_COLLECTED_BADGE_INFO="획득뱃지 상세정보 불러오기 성공했습니다.";
+    public static String GET_NOT_COLLECTED_BADGE_INFO="미획득 뱃지 상세정보 불러오기 성공했습니다.";
+    public static String SUCCESS_GET_NOTIFICATION ="푸시알림 내역 보기 성공했습니다.";
+    public static String POST_REPORT_SUCCESS="게시글 신고하기 성공했습니다.";
 
     public static String POST_COMMENT_SUCCESS="댓글을 작성하는데 성공하였습니다.";
     public static String DELETE_COMMENT_SUCCESS="댓글 삭제 성공했습니다.";

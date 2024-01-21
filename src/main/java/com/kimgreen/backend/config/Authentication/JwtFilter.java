@@ -1,5 +1,7 @@
 package com.kimgreen.backend.config.Authentication;
 
+import com.kimgreen.backend.exception.TokenNotFound;
+import com.kimgreen.backend.exception.TokenNotValid;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -29,7 +31,7 @@ public class JwtFilter extends OncePerRequestFilter {
             Authentication authentication = jwtProvider.getAuthentication(accessToken);
 
             // access token 검증
-            if (StringUtils.hasText(accessToken) && jwtProvider.validateToken(accessToken) == SUCCESS) {
+            if (StringUtils.hasText(accessToken) && jwtProvider.validateToken(accessToken).equals(SUCCESS)) {
                 SecurityContextHolder.getContext().setAuthentication(authentication); // security context에 인증 정보 저장
             }
         } catch (ExpiredJwtException e) {

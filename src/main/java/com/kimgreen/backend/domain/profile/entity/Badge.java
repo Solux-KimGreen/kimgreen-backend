@@ -23,6 +23,11 @@ public class Badge extends AuditEntity {
     @JoinColumn(name="member_id")
     private Member member;
 
+    @Column(name="earlybird_count",columnDefinition = "int default 0" )
+    private int earlybirdCount;
+    @Column(name="ealrybird_is_achieved",columnDefinition = "boolean default false")
+    private boolean earlybirdIsAchieved;
+
     @Column(name="mentor_count",columnDefinition = "int default 0")
     private int mentorCount;
     @Column(name="mentor_is_achieved",columnDefinition = "boolean default false")
@@ -90,6 +95,8 @@ public class Badge extends AuditEntity {
     @Column(name="etc_10_is_achieved",columnDefinition = "boolean default false")
     private boolean etc10IsAchieved;
 
+    @Column(name="sprout_is_achieved", columnDefinition = "boolean default true")
+    private boolean sproutIsAchieved;
 
     @Column(name="adventurer_is_achieved",columnDefinition = "boolean default false")
     private boolean adventurerIsAchieved;
@@ -97,35 +104,13 @@ public class Badge extends AuditEntity {
     @Column(name="golden_is_achieved",columnDefinition = "boolean default false")
     private boolean goldenIsAchieved;
 
-    String[] columnList = {
-            "adventurer_is_achieved",
-            "certification_10_is_achieved",
-            "certification_20_is_achieved",
-            "certification_50_is_achieved",
-            "etc_10_is_achieved",
-            "etc_20_is_achieved",
-            "etc_50_is_achieved",
-            "golden_is_achieved",
-            "mentee_is_achieved",
-            "mentor_is_achieved",
-            "plastic_10_is_achieved",
-            "plastic_20_is_achieved",
-            "plastic_50_is_achieved",
-            "plogging_10_is_achieved",
-            "plogging_20_is_achieved",
-            "plogging_50_is_achieved",
-            "receipt_10_is_achieved",
-            "receipt_20_is_achieved",
-            "receipt_50_is_achieved",
-            "reform_10_is_achieved",
-            "reform_20_is_achieved",
-            "reform_50_is_achieved",
-            "reusable_10_is_achieved",
-            "reusable_20_is_achieved",
-            "reusable_50_is_achieved",
-            "transport_10_is_achieved",
-            "transport_20_is_achieved",
-            "transport_50_is_achieved"
-    };
+    public void updateGoldenAchieved() {
+        if(!this.isGoldenIsAchieved()) {this.goldenIsAchieved = true;}
+    }
+    public void updateGoldenNotAchieved() {
+        if(this.isGoldenIsAchieved()) {this.goldenIsAchieved=false;}
+    }
+    public void updateAdventurerAchieved() {if(!this.isAdventurerIsAchieved()) {this.adventurerIsAchieved = true;}}
+    public void updateAdventurerNotAchieved() {if(this.isAdventurerIsAchieved()) {this.adventurerIsAchieved=false;}}
 
 }
