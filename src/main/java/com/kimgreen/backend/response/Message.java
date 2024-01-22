@@ -18,4 +18,6 @@ public class Message {
     public static String SUCCESS_GET_NOTIFICATION ="푸시알림 내역 보기 성공했습니다.";
     public static String POST_REPORT_SUCCESS="게시글 신고하기 성공했습니다.";
 
+    public static String PROFILE_INFO_SUCCESS="프로필 불러오기 성공했습니다.";
+
 }
