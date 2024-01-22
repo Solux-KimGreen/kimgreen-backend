@@ -47,7 +47,7 @@ public class CommentService {
         List <Comment> allCommentList = commentRepository.findAll();
         Post post = postRepository.findById(postId).orElseThrow(PostNotFound::new);
 
-        List <Comment> commentList = null;
+        List <Comment> commentList = new ArrayList<>();
         for (Comment comment : allCommentList){
             if (comment.getPost() == post){
                 commentList.add(comment);

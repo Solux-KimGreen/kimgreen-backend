@@ -24,23 +24,23 @@ public class CommentController {
     @Operation(summary = "댓글 작성")
     @ResponseStatus(OK)
     @PostMapping("/write-comment")
-    public Response postComment(@RequestParam Long postId, @RequestBody PostCommentDto postCommentDto) {
+    public Response postComment(@RequestParam("postId") Long postId, @RequestBody PostCommentDto postCommentDto) {
         commentService.postComment(postId, postCommentDto);
         return success(POST_COMMENT_SUCCESS);
     }
 
     @Operation(summary = "댓글 삭제")
     @ResponseStatus(OK)
-    @PatchMapping("/delete-comment")
-    public Response deleteComment(@RequestParam Long commentId){
+    @DeleteMapping("/delete-comment")
+    public Response deleteComment(@RequestParam("commentId") Long commentId){
         commentService.deleteComment(commentId);
         return success(DELETE_COMMENT_SUCCESS);
     }
 
     @Operation(summary = "댓글 목록 불러오기")
     @ResponseStatus(OK)
-    @PatchMapping("/get-comment")
-    public Response getComment(@RequestParam Long postId){
+    @GetMapping("/get-comment")
+    public Response getComment(@RequestParam("postId") Long postId){
         List <Comment> commentList = commentService.getComment(postId);
         return success(GET_COMMENT_SUCCESS, commentList);
     }
