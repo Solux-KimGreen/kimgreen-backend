@@ -23,7 +23,7 @@ public class CommentController {
     private CommentService commentService;
     @Operation(summary = "댓글 작성")
     @ResponseStatus(OK)
-    @PatchMapping("/write-comment")
+    @PostMapping("/write-comment")
     public Response postComment(@RequestParam Long postId, @RequestBody PostCommentDto postCommentDto) {
         commentService.postComment(postId, postCommentDto);
         return success(POST_COMMENT_SUCCESS);
