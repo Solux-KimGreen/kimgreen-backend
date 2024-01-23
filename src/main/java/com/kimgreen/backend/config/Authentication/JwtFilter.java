@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.print.DocFlavor;
 import java.io.IOException;
 
 @RequiredArgsConstructor
@@ -22,10 +23,26 @@ public class JwtFilter extends OncePerRequestFilter {
     private static final String EXPIRED = "expired";
     private static final String DENIED = "denied";
     private final JwtProvider jwtProvider;
+    private final static String[] AUTH_WHITE_LIST_IGNORE = {
+            "/swagger-ui/index.html"
+            ,"/swagger-ui.html"
+            ,"/swagger-ui/**"
+            ,"/api-docs/**"
+            ,"/v3/api-docs/**"
+            ,"/auth/sign-up"
+            ,"/auth/log-in"
+            ,"/auth/reissue"
+    };
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return org.apache.commons.lang3.StringUtils.startsWithAny(request.getRequestURI(),AUTH_WHITE_LIST_IGNORE);
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response
             , FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("doing jwtFilter");
         try {
             String accessToken = jwtProvider.resolveToken(request, HttpHeaders.AUTHORIZATION);
             Authentication authentication = jwtProvider.getAuthentication(accessToken);

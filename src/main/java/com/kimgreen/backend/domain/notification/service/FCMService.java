@@ -36,7 +36,7 @@ public class FCMService {
     @Value("${fcm.key.scope}")
     private String fireBaseScope;
 
-    @Value(("{fcm.url}"))
+    @Value(("${fcm.url}"))
     private String FCM_URL;
 
     private final FCMTokenRepository fcmTokenRepository;

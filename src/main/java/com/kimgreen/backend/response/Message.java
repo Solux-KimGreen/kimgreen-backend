@@ -17,6 +17,12 @@ public class Message {
     public static String GET_NOT_COLLECTED_BADGE_INFO="미획득 뱃지 상세정보 불러오기 성공했습니다.";
     public static String SUCCESS_GET_NOTIFICATION ="푸시알림 내역 보기 성공했습니다.";
     public static String POST_REPORT_SUCCESS="게시글 신고하기 성공했습니다.";
+    public static String CALENDAR_SUCCESS="프로필 달력 불러오기 성공했습니다.";
+    public static String CALENDAR_DETAILS_SUCCESS="프로필 달력 상세정보 불러오기 성공했습니다.";
+
+    public static String POST_COMMENT_SUCCESS="댓글을 작성하는데 성공하였습니다.";
+    public static String DELETE_COMMENT_SUCCESS="댓글 삭제 성공했습니다.";
+    public static String GET_COMMENT_SUCCESS="댓글 목록을 불러오는데 성공하였습니다.";
 
     public static String PROFILE_INFO_SUCCESS="프로필 불러오기 성공했습니다.";
 
