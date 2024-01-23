@@ -38,7 +38,6 @@ public class PostController {
         return success(SUCCESS_TO_WRITE_CERTIFY_POST);
     }
 
-
     @Operation(summary = "게시글 작성(일상)")
     @ResponseStatus(OK)
     @PostMapping(path="/daily", consumes = MULTIPART_FORM_DATA_VALUE)
@@ -47,4 +46,30 @@ public class PostController {
         postService.writeDailyPost(writePostRequestDto, multipartFiles, memberService.getCurrentMember());
         return success(SUCCESS_TO_WRITE_DAILY_POST);
     }
+
+    @Operation(summary = "게시글 상세 보기")
+    @ResponseStatus(OK)
+    @GetMapping("/{postId}")
+    public Response getPostInfoWithAuthMember(Long postId){
+        return success(SUCCESS_TO_GET_POST, postService.getPostInfoWithAuthMember(postId, memberService.getCurrentMember()));
+    }
+
+/*    @Operation(summary = "Delete post API", description = "put post id what you want to delete.")
+    @ResponseStatus(OK)
+    @DeleteMapping()
+    public Response deletePost(Long postId){
+        postService.deletePost(postId, memberService.getCurrentMember());
+        return Response.success(SUCCESS_TO_DELETE_POST);
+    }
+    @Operation(summary = "Edit post info API", description = "put post info what you want to edit.")
+    @ResponseStatus(OK)
+    @PutMapping(consumes = MULTIPART_FORM_DATA_VALUE)
+    public Response editPostInfo(Long postId,
+                                 @Valid @RequestPart(name = "body(json)") WritePostRequestDto editPostInfoRequestDto,
+                                 @RequestPart(name = "files", required = false) List<MultipartFile> multipartFiles){
+        postService.editPostInfo(postId, editPostInfoRequestDto, multipartFiles, memberService.getCurrentMember());
+        return Response.success(SUCCESS_TO_EDIT_POST);
+    }*/
+
+
 }

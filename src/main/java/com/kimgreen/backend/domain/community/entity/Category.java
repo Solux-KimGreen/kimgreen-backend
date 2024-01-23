@@ -13,8 +13,6 @@ public enum Category {
     DAILY("일상");
 
 
-
-
     private String name;
     private Category(String name) {
         this.name=name;
