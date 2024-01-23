@@ -24,7 +24,7 @@ public class CommentController {
     private CommentService commentService;
     @Operation(summary = "댓글 작성")
     @ResponseStatus(OK)
-    @PostMapping("/write-comment")
+    @PostMapping()
     public Response postComment(@RequestParam("postId") Long postId, @RequestBody PostCommentDto postCommentDto) {
         commentService.postComment(postId, postCommentDto);
         return success(POST_COMMENT_SUCCESS);
@@ -32,7 +32,7 @@ public class CommentController {
 
     @Operation(summary = "댓글 삭제")
     @ResponseStatus(OK)
-    @DeleteMapping("/delete-comment")
+    @DeleteMapping()
     public Response deleteComment(@RequestParam("commentId") Long commentId){
         commentService.deleteComment(commentId);
         return success(DELETE_COMMENT_SUCCESS);
@@ -40,7 +40,7 @@ public class CommentController {
 
     @Operation(summary = "댓글 목록 불러오기")
     @ResponseStatus(OK)
-    @GetMapping("/get-comment")
+    @GetMapping()
     public Response getComment(@RequestParam("postId") Long postId){
         List <GetCommentDto> commentList = commentService.getComment(postId);
         return success(GET_COMMENT_SUCCESS, commentList);
