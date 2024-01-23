@@ -24,14 +24,14 @@ public class PostService {
     private final PostImgRepository postImgRepository;
 
     @Transactional
-    public void writeCheckPost(WritePostRequestDto writePostRequestDto, MultipartFile multipartFile, Member writer) throws IOException {
+    public void writeCheckPost(WritePostRequestDto writePostRequestDto, MultipartFile multipartFile, Member member) throws IOException {
         // s3에 파일을 업로드 한 뒤 예외가 발생하면 db는 롤백이 되지만,
         // 이미 s3에 저장된 이미지는 삭제되지 않는 문제가 있음.
 
         // post를 먼저 저장
         Post post = postRepository.save(writePostRequestDto.toCertifyPostEntity(
                                         writePostRequestDto.getCategory(),
-                                        writePostRequestDto.getContent()));
+                                        writePostRequestDto.getContent(), member));
 
         //파일을 첨부한 경우
         if(multipartFile != null){
@@ -41,14 +41,14 @@ public class PostService {
     }
 
     @Transactional
-    public void writeDailyPost(WritePostRequestDto writePostRequestDto, MultipartFile multipartFile, Member writer) throws IOException {
+    public void writeDailyPost(WritePostRequestDto writePostRequestDto, MultipartFile multipartFile, Member member) throws IOException {
         // s3에 파일을 업로드 한 뒤 예외가 발생하면 db는 롤백이 되지만,
         // 이미 s3에 저장된 이미지는 삭제되지 않는 문제가 있음.
 
         // post를 먼저 저장
         Post post = postRepository.save(writePostRequestDto.toDailyPostEntity(
                 writePostRequestDto.getCategory(),
-                writePostRequestDto.getContent()));
+                writePostRequestDto.getContent(), member));
 
         //파일을 첨부한 경우
         if(multipartFile != null){
