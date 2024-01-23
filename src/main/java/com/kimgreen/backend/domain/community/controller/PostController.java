@@ -6,6 +6,7 @@ import com.kimgreen.backend.domain.community.service.PostService;
 import com.kimgreen.backend.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,18 +32,19 @@ public class PostController {
     @Operation(summary = "게시글 작성(인증)")
     @ResponseStatus(OK)
     @PostMapping(path="/check", consumes = MULTIPART_FORM_DATA_VALUE)
-    public Response writeCheckPost(@RequestBody WritePostRequestDto writePostRequestDto,
-                                   @RequestPart(name = "files") MultipartFile multipartFiles) throws IOException { //파일 필수 O
+    public Response writeCheckPost(@RequestPart(name = "jsonData") @Valid WritePostRequestDto writePostRequestDto,
+                                   @RequestPart(name = "Files") MultipartFile multipartFiles) throws IOException { //파일 필수 O
         postService.writeCheckPost(writePostRequestDto, multipartFiles, memberService.getCurrentMember());
-        return success(SUCCESS_TO_WRITE_POST);
+        return success(SUCCESS_TO_WRITE_CERTIFY_POST);
     }
+
 
     @Operation(summary = "게시글 작성(일상)")
     @ResponseStatus(OK)
     @PostMapping(path="/daily", consumes = MULTIPART_FORM_DATA_VALUE)
-    public Response writeDailyPost(@RequestPart(name = "body(json)") WritePostRequestDto writePostRequestDto,
-                              @RequestPart(name = "files", required = false) MultipartFile multipartFiles) throws IOException { //파일 필수 X
+    public Response writeDailyPost(@RequestPart(name = "jsonData") WritePostRequestDto writePostRequestDto,
+                              @RequestPart(name = "Files", required = false) MultipartFile multipartFiles) throws IOException { //파일 필수 X
         postService.writeDailyPost(writePostRequestDto, multipartFiles, memberService.getCurrentMember());
-        return success(SUCCESS_TO_WRITE_POST);
+        return success(SUCCESS_TO_WRITE_DAILY_POST);
     }
 }
