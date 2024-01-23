@@ -1,5 +1,6 @@
 package com.kimgreen.backend.domain.community.controller;
 
+import com.kimgreen.backend.domain.community.dto.GetCommentDto;
 import com.kimgreen.backend.domain.community.dto.PostCommentDto;
 import com.kimgreen.backend.domain.community.entity.Comment;
 import com.kimgreen.backend.domain.community.service.CommentService;
@@ -41,7 +42,7 @@ public class CommentController {
     @ResponseStatus(OK)
     @GetMapping("/get-comment")
     public Response getComment(@RequestParam("postId") Long postId){
-        List <Comment> commentList = commentService.getComment(postId);
+        List <GetCommentDto> commentList = commentService.getComment(postId);
         return success(GET_COMMENT_SUCCESS, commentList);
     }
 }
