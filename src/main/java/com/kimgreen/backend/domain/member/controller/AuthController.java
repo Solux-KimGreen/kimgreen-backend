@@ -53,4 +53,12 @@ public class AuthController {
         return success(CHANGE_PASSWORD_SUCCESS);
     }
 
+    @PostMapping("/logout")
+    @ResponseStatus(OK)
+    @Operation(summary = "로그아웃")
+    public Response logout(@RequestHeader("Authorization") String token) {
+        authService.logout(token);
+        return success("로그아웃 성공");
+    }
+
 }

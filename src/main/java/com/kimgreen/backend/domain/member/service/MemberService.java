@@ -15,6 +15,7 @@ import com.kimgreen.backend.domain.profile.repository.BadgeRepository;
 import com.kimgreen.backend.domain.profile.repository.ProfileBadgeRepository;
 import com.kimgreen.backend.domain.profile.repository.RepresentativeBadgeRepository;
 import com.kimgreen.backend.exception.LogInFailurePassword;
+import com.kimgreen.backend.exception.LogInRequiredException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,7 +44,12 @@ public class MemberService {
 
 
     public Member getCurrentMember() {
-        return memberRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        Member member = memberRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        if(member==null) {
+            throw new LogInRequiredException();
+        }
+        return member;
     }
 
     @Transactional

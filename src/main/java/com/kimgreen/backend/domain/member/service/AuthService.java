@@ -22,7 +22,9 @@ import com.kimgreen.backend.exception.DuplicateEmail;
 import com.kimgreen.backend.exception.LogInFailureEmail;
 import com.kimgreen.backend.exception.LogInFailurePassword;
 import com.kimgreen.backend.exception.RefreshTokenExpired;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -58,6 +60,13 @@ public class AuthService {
 
         validateEmail(email);
         saveMember(signUpRequestDto,email, password, nickname);
+    }
+
+    @Transactional
+    public void logout(String token) {
+        SecurityContextHolder.clearContext();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.add("Authorization", "");
     }
 
     @Transactional
