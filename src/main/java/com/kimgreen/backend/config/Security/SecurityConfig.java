@@ -5,10 +5,12 @@ import com.kimgreen.backend.config.Authentication.JwtAuthenticationEntryPoint;
 import com.kimgreen.backend.config.Authentication.JwtFilter;
 import com.kimgreen.backend.config.Authentication.JwtProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,7 +27,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
+    private final static String[] AUTH_WHITE_LIST_IGNORE = {
+            "/swagger-ui/index.html"
+            ,"/swagger-ui.html"
+            ,"/swagger-ui/**"
+            ,"/api-docs/**"
+            ,"/v3/api-docs/**"
+            ,"/auth/sign-up"
+            ,"/auth/log-in"
+            ,"/auth/reissue"
+    };
     private final static String[] AUTH_WHITE_LIST = {
+            "/",
+            "/**",
             "/swagger-ui/index.html"
             ,"/swagger-ui.html"
             ,"/swagger-ui/**"
@@ -44,6 +58,15 @@ public class SecurityConfig {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> {
+            web.ignoring().requestMatchers(AUTH_WHITE_LIST_IGNORE)
+                    .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        };
+    }
+
+
 
 
     @Bean
