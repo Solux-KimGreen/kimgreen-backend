@@ -45,25 +45,16 @@ public class Advice {
         return Response.failure(HttpStatus.NOT_FOUND,"요청한 뱃지를 찾을 수 없습니다.");
     }
 
-    @ExceptionHandler(ConvertingJSONException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Response ConvertingJSONExceptionResponse() {
-        return Response.failure(HttpStatus.INTERNAL_SERVER_ERROR,"JSON 변환 에러");
-    }
-
-    @ExceptionHandler(TokenNotValid.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public Response TokenNotValidResponse() {
-        return Response.failure(HttpStatus.UNAUTHORIZED,"토큰이 유효하지 않습니다.");
-    }
-    @ExceptionHandler(TokenNotFound.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Response TokenNotFoundResponse() {
-        return Response.failure(HttpStatus.NOT_FOUND,"토큰이 없습니다.");
-    }
-
     @ExceptionHandler(PostNotFound.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Response PostNotFoundResponse(){return Response.failure(HttpStatus.NOT_FOUND, "요청한 게시글을 찾을 수 없습니다.");}
+    public Response PostNotFoundResponse() {
+        return Response.failure(HttpStatus.NOT_FOUND, "요청한 게시글을 찾을 수 없습니다.");
+    }
+
+    @ExceptionHandler(WrongPath.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response WrongPath() {
+        return Response.failure(HttpStatus.NOT_FOUND, "잘못된 경로입니다.");
+    }
 
 }

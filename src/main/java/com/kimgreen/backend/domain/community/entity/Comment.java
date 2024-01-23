@@ -29,4 +29,6 @@ public class Comment extends AuditEntity {
 
     @Column
     private String content;
+
+
 }
