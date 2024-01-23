@@ -1,4 +1,4 @@
-package com.kimgreen.backend.domain.community.entity;
+package com.kimgreen.backend.domain.community;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
