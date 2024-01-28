@@ -1,34 +1,69 @@
 package com.kimgreen.backend.domain.profile.service;
 
+import com.kimgreen.backend.domain.BadgeList;
+import com.kimgreen.backend.domain.community.service.S3Service;
 import com.kimgreen.backend.domain.member.entity.Member;
+import com.kimgreen.backend.domain.member.entity.MemberProfileImg;
+import com.kimgreen.backend.domain.member.repository.MemberProfileImgRepository;
 import com.kimgreen.backend.domain.member.repository.MemberRepository;
 import com.kimgreen.backend.domain.member.service.MemberService;
+import com.kimgreen.backend.domain.profile.dto.GetProfileDto;
+import com.kimgreen.backend.domain.profile.entity.ProfileBadge;
+import com.kimgreen.backend.domain.profile.entity.RepresentativeBadge;
+import com.kimgreen.backend.domain.profile.repository.ProfileBadgeRepository;
+import com.kimgreen.backend.domain.profile.repository.RepresentativeBadgeRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+
 public class ProfileService {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
+    private final GetProfileDto getProfileDto;
+    private final MemberProfileImgRepository memberProfileImgRepository;
+    private final S3Service s3Service;
+    private final RepresentativeBadgeRepository representativeBadgeRepository;
+    private final ProfileBadgeRepository profileBadgeRepository;
 
-    public List<Object> getProfileInfo(Long memberId){
-        List<Object> profileInfo = new ArrayList<>();
-        Member member = memberRepository.findById(memberId).orElseThrow(); // 찾고싶은 멤버
+    public void getProfilePosts(){
 
-        profileInfo.add(member.getNickname());
-        // 뱃지 관련
-        profileInfo.add(memberId.equals(memberService.getCurrentMember().getMemberId()));
-        return profileInfo;
     }
-    /*
-    "nickname": "김지은",
-		"profileImg": "https://gol2580bucket.s3.us-east-2.amazonaws.com/9d465cf3-b2b0-43f9-ae54-06cfa60c9ebc_.png"
-		"profileBadge": "새싹환경운동가",
-		"profileBadgeImg": "https://gol2580bucket.s3.us-east-2.amazonaws.com/wizard.png",
-		"badgeList": ["새싹환경운동가", "얼리버드","","",""],
-		"badgeImgList": ["https://gol2580bucket.s3.us-east-2.amazonaws.com/wizard.png","https://gol2580bucket.s3.us-east-2.amazonaws.com/wizard.png"]
-		"isMine": true
-     */
+    public GetProfileDto getProfileInfo(@RequestParam("memberId") Long memberId){
+        Member member = memberRepository.findById(memberId).orElseThrow(); // 찾고싶은 멤버
+        MemberProfileImg memberProfileImg = memberProfileImgRepository.findByMember(member);
+        RepresentativeBadge representativeBadge = representativeBadgeRepository.findByMember(member);
+        profileBadgeRepository.findByMember(member);
+
+        ArrayList<String> badgeList = new ArrayList<>();
+        ArrayList<String> badgeImgList = new ArrayList<>();
+
+        ProfileBadge profileBadge = profileBadgeRepository.findByMember(member);
+        ArrayList<BadgeList> list = new ArrayList<>();
+        list.add(profileBadge.getProfileBadge_1());
+        list.add(profileBadge.getProfileBadge_2());
+        list.add(profileBadge.getProfileBadge_3());
+        list.add(profileBadge.getProfileBadge_4());
+        list.add(profileBadge.getProfileBadge_5());
+        for(BadgeList b : list){
+            badgeList.add(b.name);
+            if(b != BadgeList.BLANK){
+                badgeImgList.add(s3Service.getFullUrl(b.url));
+            }
+        }
+
+        return getProfileDto.from(member,
+                s3Service.getFullUrl(memberProfileImg.getImgUrl()),
+                representativeBadge.getRepresentativeBadge().name,
+                s3Service.getFullUrl(representativeBadge.getRepresentativeBadge().url),
+                badgeList,
+                badgeImgList,
+                memberId.equals(memberService.getCurrentMember().getMemberId())
+                );
+    }
 }

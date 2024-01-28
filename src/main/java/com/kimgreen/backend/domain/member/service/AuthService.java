@@ -157,7 +157,13 @@ public class AuthService {
         Member member = memberRepository.findByEmail(email);
         profileImgRepository.save(signUpRequestDto.toMemberProfileImgEntity(member));
         badgeRepository.save(Badge.builder().member(member).build());
-        profileBadgeRepository.save(ProfileBadge.builder().member(member).build());
+        profileBadgeRepository.save(ProfileBadge.builder()
+                .member(member)
+                .profileBadge_1(BadgeList.BLANK)
+                .profileBadge_2(BadgeList.BLANK)
+                .profileBadge_3(BadgeList.BLANK)
+                .profileBadge_4(BadgeList.BLANK)
+                .profileBadge_5(BadgeList.BLANK).build());
         representativeBadgeRepository.save(
                 RepresentativeBadge.builder()
                         .representativeBadge(BadgeList.BLANK)

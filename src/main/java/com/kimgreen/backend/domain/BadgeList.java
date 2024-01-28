@@ -1,7 +1,7 @@
 package com.kimgreen.backend.domain;
 
 public enum BadgeList {
-    BLANK("","",1),
+    BLANK("","","",1),
     MENTOR("그린 멘토",5,"mentor.png","질문카테고리 댓글 5회 이상",2),
     MENTEE("그린 멘티",5,"mentee.png","질문 카테고리 글 작성 5회 이상",3),
     EARLYBIRD("얼리버드",3,"earlybird.png","9시 이전에 인증글 3회이상 작성",4),
