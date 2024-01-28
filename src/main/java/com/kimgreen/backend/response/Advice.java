@@ -57,4 +57,10 @@ public class Advice {
         return Response.failure(HttpStatus.NOT_FOUND, "잘못된 경로입니다.");
     }
 
+    @ExceptionHandler(LogInRequiredException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response LogInRequiredResponse() {
+        return Response.failure(HttpStatus.NOT_FOUND, "토큰이 존재하지 않습니다. 로그인 후 이용해주세요.");
+    }
+
 }

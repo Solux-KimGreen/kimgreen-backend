@@ -22,7 +22,9 @@ import com.kimgreen.backend.exception.DuplicateEmail;
 import com.kimgreen.backend.exception.LogInFailureEmail;
 import com.kimgreen.backend.exception.LogInFailurePassword;
 import com.kimgreen.backend.exception.RefreshTokenExpired;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -51,6 +53,7 @@ public class AuthService {
     private static final String EXPIRED = "expired";
     private final FCMService FCMService;
 
+    @Transactional
     public void signUp(SignUpRequestDto signUpRequestDto) {
         String email = signUpRequestDto.getEmail();
         String password = signUpRequestDto.getPassword();
@@ -58,6 +61,14 @@ public class AuthService {
 
         validateEmail(email);
         saveMember(signUpRequestDto,email, password, nickname);
+        updateSprout(memberRepository.findByEmail(email));
+    }
+
+    @Transactional
+    public void logout(String token) {
+        SecurityContextHolder.clearContext();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.add("Authorization", "");
     }
 
     @Transactional
@@ -93,6 +104,7 @@ public class AuthService {
 
     }
 
+    @Transactional
     public TokenDto tokenReissue(TokenDto tokenDto) {
         //어차피 accessToken 만료인 경우에 호출되기 때문에 AT는 검증할 필요X
         String accessToken = tokenDto.getAccessToken();
@@ -152,6 +164,7 @@ public class AuthService {
         }
     }
 
+    @Transactional
     public void saveMember(SignUpRequestDto signUpRequestDto,String email, String password, String nickname) {
         memberRepository.save(signUpRequestDto.toMemberEntity(email, passwordEncoder.encode(password),nickname));
         Member member = memberRepository.findByEmail(email);
@@ -169,6 +182,11 @@ public class AuthService {
                         .representativeBadge(BadgeList.BLANK)
                         .member(member)
                         .build());
+    }
+
+    @Transactional
+    public void updateSprout(Member member) {
+        badgeRepository.findByMember(member).setSproutIsAchieved(true);
     }
 
 }

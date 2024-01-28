@@ -3,16 +3,14 @@ package com.kimgreen.backend.domain.profile.entity;
 import com.kimgreen.backend.domain.AuditEntity;
 import com.kimgreen.backend.domain.member.entity.Member;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Builder
+@Setter
 public class Badge extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -109,13 +109,15 @@ public class SecurityConfig {
                 //.addFilterBefore(new JwtExceptionFilter(),JwtFilter.class)
 
                 //로그아웃
-                .logout((logoutConfig) ->
+                /*.logout((logoutConfig) ->
                         logoutConfig
                                 .logoutUrl("/auth/logout")
                                 .logoutSuccessHandler((request, response, authentication)
                                         -> {response.sendRedirect("/auth/log-in");})
                                 .deleteCookies("remember-me")
                 )
+
+                 */
 
 
                 // 조건별로 요청 허용/제한 설정
