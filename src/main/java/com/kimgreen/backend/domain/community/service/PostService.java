@@ -6,21 +6,26 @@ import com.kimgreen.backend.domain.community.entity.*;
 import com.kimgreen.backend.domain.community.repository.PostImgRepository;
 import com.kimgreen.backend.domain.community.repository.PostRepository;
 import com.kimgreen.backend.domain.member.entity.Member;
+import com.kimgreen.backend.domain.member.service.MemberService;
 import com.kimgreen.backend.domain.profile.entity.RepresentativeBadge;
 import com.kimgreen.backend.domain.profile.repository.RepresentativeBadgeRepository;
 import com.kimgreen.backend.exception.PostNotFound;
+import com.kimgreen.backend.exception.WrongPath;
+import com.kimgreen.backend.response.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
 
     private final S3Service s3Service;
+    private final MemberService memberService;
     private final PostRepository postRepository;
     private final PostImgRepository postImgRepository;
     private final RepresentativeBadgeRepository representativeBadgeRepository;
@@ -49,6 +54,13 @@ public class PostService {
             uploadPostFileList(multipartFile, post);
         }
     }
+    @Transactional
+    public void uploadPostFileList(MultipartFile multipartFile, Post post) throws IOException {
+        PostImg postImg = postImgRepository.save(PostImg.builder()
+                .imgUrl(s3Service.saveFile(multipartFile))
+                .title(multipartFile.getOriginalFilename())
+                .post(post).build());
+    }
 
     // 게시글 상세정보 조회
     @Transactional
@@ -76,11 +88,27 @@ public class PostService {
         return false;
     }
 
+    //게시글 삭제하기
     @Transactional
-    public void uploadPostFileList(MultipartFile multipartFile, Post post) throws IOException {
-            PostImg postFile = postImgRepository.save(PostImg.builder()
-                    .imgUrl(s3Service.saveFile(multipartFile))
-                    .title(multipartFile.getOriginalFilename())
-                    .post(post).build());
+    public void deletePost(Long postId, Member currentMember){
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFound::new);
+
+        postRepository.delete(post);
+        //postImgRepository.delete(post);
+    }
+
+    @Transactional
+    public void editPost(Long postId, WritePostRequestDto editPostInfoRequestDto, MultipartFile multipartFile, Member currentMember) throws IOException {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFound::new);
+
+        post.update(editPostInfoRequestDto.getCategory(), editPostInfoRequestDto.getContent());
+        // 기존 게시글 db을 모두 삭제하는 코드 필요
+
+
+        if(multipartFile != null){
+            uploadPostFileList(multipartFile, post);
+        }
+
+        //for(String fileUrl : fileUrls) s3Service.deleteFile(fileUrl);
     }
 }

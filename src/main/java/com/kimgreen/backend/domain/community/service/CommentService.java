@@ -72,7 +72,7 @@ public class CommentService {
                     */
                 GetCommentDto getCommentDto1 = GetCommentDto.builder()
                         .commentId(comment.getCommentId())
-                        .writerProfileImg(s3Service.getFullUrl(memberProfileImg.getImgUrl()))
+                        .writerProfileImg(s3Service.getFullUrl(memberProfileImg.getImgUrl())) //프로필이미지
                         .writerNickname(comment.getMember().getNickname())
                         .writerBadge(representativeBadge.getRepresentativeBadge().name)
                         .content(comment.getContent())

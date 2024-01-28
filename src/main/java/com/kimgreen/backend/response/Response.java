@@ -28,7 +28,7 @@ public class Response {
         return new Response(true,OK.value(), msg,null);
     }
     public static Response success(String msg, Object data) {
-        return new Response(true,OK.value(), msg,data);
+        return new Response(true,OK.value(), msg, data);
     }
 
     public static Response failure(HttpStatus status,String msg) {

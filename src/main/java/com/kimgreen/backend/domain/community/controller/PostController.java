@@ -1,6 +1,7 @@
 package com.kimgreen.backend.domain.community.controller;
 
 import com.kimgreen.backend.domain.community.dto.WritePostRequestDto;
+import com.kimgreen.backend.domain.member.entity.Member;
 import com.kimgreen.backend.domain.member.service.MemberService;
 import com.kimgreen.backend.domain.community.service.PostService;
 import com.kimgreen.backend.response.Response;
@@ -32,44 +33,57 @@ public class PostController {
     @Operation(summary = "게시글 작성(인증)")
     @ResponseStatus(OK)
     @PostMapping(path="/check", consumes = MULTIPART_FORM_DATA_VALUE)
-    public Response writeCheckPost(@RequestPart(name = "jsonData") @Valid WritePostRequestDto writePostRequestDto,
-                                   @RequestPart(name = "Files") MultipartFile multipartFiles) throws IOException { //파일 필수 O
-        postService.writeCheckPost(writePostRequestDto, multipartFiles, memberService.getCurrentMember());
-        return success(SUCCESS_TO_WRITE_CERTIFY_POST);
+    public Response writeCheckPost(@RequestPart(name = "jsonData") WritePostRequestDto writePostRequestDto,
+                                   @RequestPart(name = "File") MultipartFile multipartFile) throws IOException { //파일 필수 O
+        postService.writeCheckPost(writePostRequestDto, multipartFile, memberService.getCurrentMember());
+        return success(WRITE_CERTIFY_POST_SUCCESS);
     }
 
     @Operation(summary = "게시글 작성(일상)")
     @ResponseStatus(OK)
     @PostMapping(path="/daily", consumes = MULTIPART_FORM_DATA_VALUE)
     public Response writeDailyPost(@RequestPart(name = "jsonData") WritePostRequestDto writePostRequestDto,
-                              @RequestPart(name = "Files", required = false) MultipartFile multipartFiles) throws IOException { //파일 필수 X
-        postService.writeDailyPost(writePostRequestDto, multipartFiles, memberService.getCurrentMember());
-        return success(SUCCESS_TO_WRITE_DAILY_POST);
+                              @RequestPart(name = "File", required = false) MultipartFile multipartFile) throws IOException { //파일 필수 X
+        postService.writeDailyPost(writePostRequestDto, multipartFile, memberService.getCurrentMember());
+        return success(WRITE_DAILY_POST_SUCCESS);
     }
 
     @Operation(summary = "게시글 상세 보기")
     @ResponseStatus(OK)
-    @GetMapping("/{postId}")
+    @GetMapping()
     public Response getPostInfoWithAuthMember(Long postId){
-        return success(SUCCESS_TO_GET_POST, postService.getPostInfoWithAuthMember(postId, memberService.getCurrentMember()));
+        return success(GET_POST_SUCCESS, postService.getPostInfoWithAuthMember(postId, memberService.getCurrentMember()));
     }
 
-/*    @Operation(summary = "Delete post API", description = "put post id what you want to delete.")
+    @Operation(summary = "게시글 삭제하기")
     @ResponseStatus(OK)
     @DeleteMapping()
-    public Response deletePost(Long postId){
+    public Response deletePost(@RequestParam("postId") Long postId){
         postService.deletePost(postId, memberService.getCurrentMember());
-        return Response.success(SUCCESS_TO_DELETE_POST);
+        return success(DELETE_POST_SUCCESS);
     }
-    @Operation(summary = "Edit post info API", description = "put post info what you want to edit.")
+
+    @Operation(summary = "게시글 수정하기")
     @ResponseStatus(OK)
     @PutMapping(consumes = MULTIPART_FORM_DATA_VALUE)
     public Response editPostInfo(Long postId,
-                                 @Valid @RequestPart(name = "body(json)") WritePostRequestDto editPostInfoRequestDto,
-                                 @RequestPart(name = "files", required = false) List<MultipartFile> multipartFiles){
-        postService.editPostInfo(postId, editPostInfoRequestDto, multipartFiles, memberService.getCurrentMember());
-        return Response.success(SUCCESS_TO_EDIT_POST);
+                                 @RequestPart(name = "body(json)") WritePostRequestDto editPostInfoRequestDto,
+                                 @RequestPart(name = "files", required = false) MultipartFile multipartFile) throws IOException {
+
+        postService.editPost(postId, editPostInfoRequestDto, multipartFile, memberService.getCurrentMember());
+        return success(EDIT_POST_SUCCESS);
+    }
+
+    /*    @GetMapping("/post/edit/{id}")
+    public String edit(@PathVariable("id") Long id, Model model) {
+        BoardDto boardDto = boardService.findById(id);
+        model.addAttribute("post", boardDto);
+        return "board/edit.html";
+    }
+
+    @PutMapping("/post/edit/{id}")
+    public String update(@PathVariable Long id, BoardUpdateDto requestDto){
+        boardService.update(id,requestDto);
+        return "redirect:/board/list";
     }*/
-
-
 }

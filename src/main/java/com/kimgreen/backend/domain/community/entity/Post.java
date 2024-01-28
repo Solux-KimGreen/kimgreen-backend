@@ -46,4 +46,9 @@ public class Post extends AuditEntity {
     private Category category;
     @Enumerated(EnumType.STRING)
     private Tag tag;
+
+    public void update(String category, String content) {
+        this.category = Category.valueOf(category);
+        this.content = content;
+    }
 }
