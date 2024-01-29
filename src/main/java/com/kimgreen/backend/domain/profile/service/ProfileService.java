@@ -17,14 +17,12 @@ import com.kimgreen.backend.domain.profile.entity.RepresentativeBadge;
 import com.kimgreen.backend.domain.profile.repository.ProfileBadgeRepository;
 import com.kimgreen.backend.domain.profile.repository.RepresentativeBadgeRepository;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import org.springframework.stereotype.Service;
 import com.kimgreen.backend.domain.profile.dto.Profile.GetProfilePostDto;
 
 import java.util.*;
 
 @Service
-//@RequiredArgsConstructor
 @AllArgsConstructor
 
 
@@ -83,64 +81,6 @@ public class ProfileService {
         }
         return list;
     }
-    /*
-    public List<GetProfilePostDto> getProfilePosts(Long memberId){
-        List<Post> posts = postRepository.findAll();
-        Member member = memberRepository.findById(memberId).orElseThrow();
-        for(Post p : posts){
-            if(!memberId.equals(p.getMember().getMemberId())){
-                posts.remove(p);
-            }
-
-        }
-        List<GetProfilePostDto> profilePosts = new ArrayList<>();
-        for (Post p : posts){
-            Long postId = p.getPostId();
-            /*
-            String writerNickname = member.getNickname();
-            String writerBadge = representativeBadgeRepository.findByMember(member).getRepresentativeBadge().name;
-            String content = p.getContent();
-            int likeCount = p.getLikes().size();
-            int commentCount = p.getComments().size();
-
-            boolean isLiked = isLiked(p.getLikes(),memberService.getCurrentMember());
-
-            for(Likes likes : p.getLikes()){
-                if(likes.getMember().getMemberId().equals(memberService.getCurrentMember().getMemberId())){
-                    isLiked = true;
-                    break;
-                }
-            }
-
-
-            String imgUrl = "";
-
-            if(postImgRepository.findByPost(p) != null){
-                imgUrl = s3Service.getFullUrl(postImgRepository.findByPost(p).getImgUrl());
-            }
-            */
-            /*
-            String writerProfileImg = s3Service.getFullUrl(memberProfileImgRepository.findByMember(p.getMember()).getImgUrl());
-            profilePosts.add(getProfilePostsDto.from(
-                    postId,
-                    writerNickname,
-                    writerBadge,
-                    writerProfileImg,
-                    content,
-                    likeCount,
-                    commentCount
-                    //imgUrl,
-                    //isLiked
-                    ));
-
-
-            profilePosts.add(GetProfilePostDto.builder()
-                    .postId(postId)
-                    .build());
-}
-        return profilePosts;
-                }
-     */
 
     public GetProfileDto getProfileInfo(Long memberId){
         Member member = memberRepository.findById(memberId).orElseThrow(); // 찾고싶은 멤버
