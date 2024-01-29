@@ -1,8 +1,6 @@
-package com.kimgreen.backend.domain.profile.dto;
+package com.kimgreen.backend.domain.profile.dto.Profile;
 
-import com.kimgreen.backend.domain.BadgeList;
 import com.kimgreen.backend.domain.member.entity.Member;
-import com.kimgreen.backend.domain.profile.entity.Badge;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
