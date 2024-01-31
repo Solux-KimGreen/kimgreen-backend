@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
 
-import static com.kimgreen.backend.response.Message.PROFILE_INFO_SUCCESS;
-import static com.kimgreen.backend.response.Message.PROFILE_POSTS_SUCCESS;
+import static com.kimgreen.backend.response.Message.*;
 import static com.kimgreen.backend.response.Response.success;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -20,7 +19,6 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping(value="/profile")
 @RequiredArgsConstructor
-
 public class profileController {
     private final ProfileService profileService;
 
@@ -36,5 +34,13 @@ public class profileController {
     public Response getProfileInfo(@RequestParam("memberId") Long memberId) {
         return success(PROFILE_INFO_SUCCESS, profileService.getProfileInfo(memberId));
     }
+
+    @Operation(summary = "설정창 내가 쓴 댓글 불러오기")
+    @ResponseStatus(OK)
+    @GetMapping("/setting/profile")
+    public Response getMyComment() {
+        return success(GET_MY_COMMENT_SUCCESS,profileService.getMyComment());
+    }
+
 
 }

@@ -1,8 +1,10 @@
 package com.kimgreen.backend.domain.profile.service;
 
 import com.kimgreen.backend.domain.BadgeList;
+import com.kimgreen.backend.domain.community.entity.Comment;
 import com.kimgreen.backend.domain.community.entity.Likes;
 import com.kimgreen.backend.domain.community.entity.Post;
+import com.kimgreen.backend.domain.community.repository.CommentRepository;
 import com.kimgreen.backend.domain.community.repository.PostImgRepository;
 import com.kimgreen.backend.domain.community.repository.PostRepository;
 import com.kimgreen.backend.domain.community.service.S3Service;
@@ -11,11 +13,13 @@ import com.kimgreen.backend.domain.member.entity.MemberProfileImg;
 import com.kimgreen.backend.domain.member.repository.MemberProfileImgRepository;
 import com.kimgreen.backend.domain.member.repository.MemberRepository;
 import com.kimgreen.backend.domain.member.service.MemberService;
+import com.kimgreen.backend.domain.profile.dto.Profile.CommentResponseDto;
 import com.kimgreen.backend.domain.profile.dto.Profile.GetProfileDto;
 import com.kimgreen.backend.domain.profile.entity.ProfileBadge;
 import com.kimgreen.backend.domain.profile.entity.RepresentativeBadge;
 import com.kimgreen.backend.domain.profile.repository.ProfileBadgeRepository;
 import com.kimgreen.backend.domain.profile.repository.RepresentativeBadgeRepository;
+import com.kimgreen.backend.exception.PostNotFound;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.kimgreen.backend.domain.profile.dto.Profile.GetProfilePostDto;
@@ -37,6 +41,7 @@ public class ProfileService {
     private final PostRepository postRepository;
     private final PostImgRepository postImgRepository;
     private final GetProfilePostDto getProfilePostDto;
+    private final CommentRepository commentRepository;
 
     public List<GetProfilePostDto> response(Long memberId){
         List<GetProfilePostDto> list = new ArrayList<>();
@@ -114,5 +119,21 @@ public class ProfileService {
                 memberId.equals(memberService.getCurrentMember().getMemberId())
                 );
     }
+
+    public List<CommentResponseDto> getMyComment() {
+        Member member = memberService.getCurrentMember();
+        String writer = member.getNickname();
+        String writerBadge = representativeBadgeRepository.findByMember(member).getRepresentativeBadge().name;
+        List<Comment> comments = commentRepository.findByMember(member);
+        List<CommentResponseDto> dto = new ArrayList<>();
+        for(Comment comment : comments) {
+            Post post = postRepository.findById(comment.getPost().getPostId()).orElseThrow(PostNotFound::new);
+            CommentResponseDto commentDto
+                    =  CommentResponseDto.toDto(comment.getCommentId(),post.getPostId(),writer,writerBadge,comment.getContent());
+            dto.add(commentDto);
+        }
+        return dto;
+    }
+
 
 }
