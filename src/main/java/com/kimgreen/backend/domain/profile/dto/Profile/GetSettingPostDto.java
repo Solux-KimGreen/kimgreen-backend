@@ -20,7 +20,7 @@ public class GetSettingPostDto {
     private String imgUrl;
     private boolean isLiked;
 
-    public static GetSettingPostDto toDto(Long postId, String content, String writerBadge, String writerNickname, String writerProfileImg, Long likeCount, Long commentCount, String imgUrl) {
+    public static GetSettingPostDto toDto(Long postId, String content, String writerBadge, String writerNickname, String writerProfileImg, Long likeCount, Long commentCount, String imgUrl, boolean isLiked) {
         return GetSettingPostDto.builder()
                 .postId(postId)
                 .content(content)
@@ -30,9 +30,10 @@ public class GetSettingPostDto {
                 .likeCount(likeCount)
                 .commentCount(commentCount)
                 .imgUrl(imgUrl)
+                .isLiked(isLiked)
                 .build();
     }
-    public static GetSettingPostDto toDto(Long postId, String content, String writerBadge, String writerNickname, String writerProfileImg, Long likeCount, Long commentCount) {
+    public static GetSettingPostDto toDto(Long postId, String content, String writerBadge, String writerNickname, String writerProfileImg, Long likeCount, Long commentCount, boolean isLiked) {
         return GetSettingPostDto.builder()
                 .postId(postId)
                 .content(content)
@@ -41,6 +42,7 @@ public class GetSettingPostDto {
                 .writerProfileImg(writerProfileImg)
                 .likeCount(likeCount)
                 .commentCount(commentCount)
+                .isLiked(isLiked)
                 .build();
     }
 }

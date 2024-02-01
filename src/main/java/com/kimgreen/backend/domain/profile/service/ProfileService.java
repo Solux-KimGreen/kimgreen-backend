@@ -149,17 +149,27 @@ public class ProfileService {
         List<GetSettingPostDto> dto = new ArrayList<>();
         for (Post post : posts) {
             Long countLike = likeRepository.countLike(post.getPostId());
+            List<Likes> likes = post.getLikes();
+            boolean isLiked = isLiked(likes, member);
             Long countComment = commentRepository.countComment(post.getPostId());
             PostImg postImg = postImgRepository.findByPost(post);
-            //Long postId, String content, String writerBadge, String writerNickname, String writerProfileImg, int likeCount, int commentCount, String imgUrl
             if (postImg != null) {
-                dto.add(GetSettingPostDto.toDto(post.getPostId(), post.getContent(), writerBadge, writer, writerProfileImg, countLike, countComment, s3Service.getFullUrl(postImg.getImgUrl())));
+                dto.add(GetSettingPostDto.toDto(post.getPostId(), post.getContent(), writerBadge, writer, writerProfileImg, countLike, countComment, s3Service.getFullUrl(postImg.getImgUrl()),isLiked));
             } else {
-                dto.add(GetSettingPostDto.toDto(post.getPostId(), post.getContent(), writerBadge, writer, writerProfileImg, countLike, countComment));
+                dto.add(GetSettingPostDto.toDto(post.getPostId(), post.getContent(), writerBadge, writer, writerProfileImg, countLike, countComment,isLiked));
             }
 
         }
         return dto;
+    }
+
+    public boolean isLiked(List<Likes> likesList, Member member) {
+        for(Likes like : likesList) {
+            if(like.getMember().getMemberId().equals(member.getMemberId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
