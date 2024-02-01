@@ -37,10 +37,15 @@ public class profileController {
 
     @Operation(summary = "설정창 내가 쓴 댓글 불러오기")
     @ResponseStatus(OK)
-    @GetMapping("/setting/profile")
+    @GetMapping("/setting/comment")
     public Response getMyComment() {
         return success(GET_MY_COMMENT_SUCCESS,profileService.getMyComment());
     }
+
+    @Operation(summary = "설정창 내가 쓴 글 불러오기")
+    @ResponseStatus(OK)
+    @GetMapping("/setting/post")
+    public Response getMyPost() {return success(GET_MY_POST_SUCCESS, profileService.getMyPost());}
 
 
 }
