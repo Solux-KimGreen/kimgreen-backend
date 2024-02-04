@@ -56,5 +56,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         json.put("message", msg);
         String newResponse = new ObjectMapper().writeValueAsString(json);
         response.getWriter().write(newResponse);
+        response.setStatus(status);
     }
 }
