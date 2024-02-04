@@ -34,6 +34,8 @@ public class JwtProvider {
     private static final String SUCCESS = "success";
     private static final String EXPIRED = "expired";
     private static final String DENIED = "denied";
+    private static final String MALFORMED = "malformed";
+    private static final String BLANK = "blank";
     private long now;
     private final String AUTHORITIES_KEY = "auth";
     private final CustomUserDetailsService customUserDetailsService;
@@ -97,6 +99,10 @@ public class JwtProvider {
         String bearerToken = request.getHeader(header);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
+        } else if(StringUtils.hasText(bearerToken)) {
+            return MALFORMED;
+        } else if(bearerToken==null) {
+            return BLANK;
         }
         return null;
     }
