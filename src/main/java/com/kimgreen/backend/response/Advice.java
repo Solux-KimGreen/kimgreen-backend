@@ -63,6 +63,11 @@ public class Advice {
         return Response.failure(HttpStatus.NOT_FOUND, "토큰이 존재하지 않습니다. 로그인 후 이용해주세요.");
     }
 
+    @ExceptionHandler(MemberNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response MemberNotFoundResponse() {
+        return Response.failure(HttpStatus.NOT_FOUND, "요청한 멤버가 존재하지 않습니다.");
+    }
 
 
 }
