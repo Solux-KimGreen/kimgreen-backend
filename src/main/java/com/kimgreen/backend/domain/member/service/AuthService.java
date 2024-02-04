@@ -53,6 +53,7 @@ public class AuthService {
     private static final String EXPIRED = "expired";
     private final FCMService FCMService;
 
+    @Transactional
     public void signUp(SignUpRequestDto signUpRequestDto) {
         String email = signUpRequestDto.getEmail();
         String password = signUpRequestDto.getPassword();
@@ -60,6 +61,7 @@ public class AuthService {
 
         validateEmail(email);
         saveMember(signUpRequestDto,email, password, nickname);
+        updateSprout(memberRepository.findByEmail(email));
     }
 
     @Transactional
@@ -102,6 +104,7 @@ public class AuthService {
 
     }
 
+    @Transactional
     public TokenDto tokenReissue(TokenDto tokenDto) {
         //어차피 accessToken 만료인 경우에 호출되기 때문에 AT는 검증할 필요X
         String accessToken = tokenDto.getAccessToken();
@@ -161,17 +164,29 @@ public class AuthService {
         }
     }
 
+    @Transactional
     public void saveMember(SignUpRequestDto signUpRequestDto,String email, String password, String nickname) {
         memberRepository.save(signUpRequestDto.toMemberEntity(email, passwordEncoder.encode(password),nickname));
         Member member = memberRepository.findByEmail(email);
         profileImgRepository.save(signUpRequestDto.toMemberProfileImgEntity(member));
         badgeRepository.save(Badge.builder().member(member).build());
-        profileBadgeRepository.save(ProfileBadge.builder().member(member).build());
+        profileBadgeRepository.save(ProfileBadge.builder()
+                .member(member)
+                .profileBadge_1(BadgeList.BLANK)
+                .profileBadge_2(BadgeList.BLANK)
+                .profileBadge_3(BadgeList.BLANK)
+                .profileBadge_4(BadgeList.BLANK)
+                .profileBadge_5(BadgeList.BLANK).build());
         representativeBadgeRepository.save(
                 RepresentativeBadge.builder()
                         .representativeBadge(BadgeList.BLANK)
                         .member(member)
                         .build());
+    }
+
+    @Transactional
+    public void updateSprout(Member member) {
+        badgeRepository.findByMember(member).setSproutIsAchieved(true);
     }
 
 }

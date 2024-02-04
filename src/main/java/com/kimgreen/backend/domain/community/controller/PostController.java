@@ -1,13 +1,15 @@
 package com.kimgreen.backend.domain.community.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kimgreen.backend.domain.community.dto.WritePostRequestDto;
+import com.kimgreen.backend.domain.community.entity.Category;
 import com.kimgreen.backend.domain.member.entity.Member;
 import com.kimgreen.backend.domain.member.service.MemberService;
 import com.kimgreen.backend.domain.community.service.PostService;
+import com.kimgreen.backend.domain.profile.repository.BadgeRepository;
 import com.kimgreen.backend.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +31,7 @@ public class PostController {
 
     private final PostService postService;
     private final MemberService memberService;
+    private final BadgeRepository badgeRepository;
 
     @Operation(summary = "게시글 작성(인증)")
     @ResponseStatus(OK)
@@ -51,15 +54,30 @@ public class PostController {
     @Operation(summary = "게시글 상세 보기")
     @ResponseStatus(OK)
     @GetMapping()
-    public Response getPostInfoWithAuthMember(Long postId){
-        return success(GET_POST_SUCCESS, postService.getPostInfoWithAuthMember(postId, memberService.getCurrentMember()));
+    public Response getPostInfo(Long postId){
+        return success(GET_POST_SUCCESS, postService.getPostInfo(postId));
+    }
+
+    @Operation(summary = "게시글 목록 불러오기")
+    @ResponseStatus(OK)
+    @GetMapping("/{category}")
+    public Response getPostList(Category category, com.kimgreen.backend.domain.community.entity.Tag tag) {
+        return success(GET_POST_LIST_SUCCESS, postService.getPostlist(category, tag));
+    }
+
+    @JsonIgnore
+    @Operation(summary = "게시글 좋아요 상위목록 불러오기")
+    @ResponseStatus(OK)
+    @GetMapping("/best")
+    public Response getBestPostList() {
+        return Response.success(GET_BEST_POST_LIST_SUCCESS, postService.getBestPostList());
     }
 
     @Operation(summary = "게시글 삭제하기")
     @ResponseStatus(OK)
     @DeleteMapping()
     public Response deletePost(@RequestParam("postId") Long postId){
-        postService.deletePost(postId, memberService.getCurrentMember());
+        postService.deletePost(postId);
         return success(DELETE_POST_SUCCESS);
     }
 
@@ -70,20 +88,7 @@ public class PostController {
                                  @RequestPart(name = "body(json)") WritePostRequestDto editPostInfoRequestDto,
                                  @RequestPart(name = "files", required = false) MultipartFile multipartFile) throws IOException {
 
-        postService.editPost(postId, editPostInfoRequestDto, multipartFile, memberService.getCurrentMember());
+        postService.editPost(postId, editPostInfoRequestDto, multipartFile);
         return success(EDIT_POST_SUCCESS);
     }
-
-    /*    @GetMapping("/post/edit/{id}")
-    public String edit(@PathVariable("id") Long id, Model model) {
-        BoardDto boardDto = boardService.findById(id);
-        model.addAttribute("post", boardDto);
-        return "board/edit.html";
-    }
-
-    @PutMapping("/post/edit/{id}")
-    public String update(@PathVariable Long id, BoardUpdateDto requestDto){
-        boardService.update(id,requestDto);
-        return "redirect:/board/list";
-    }*/
 }

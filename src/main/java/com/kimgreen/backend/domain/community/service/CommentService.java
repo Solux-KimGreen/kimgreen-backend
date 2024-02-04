@@ -64,15 +64,10 @@ public class CommentService {
             if (comment.getPost() == post){
                 MemberProfileImg memberProfileImg = memberProfileImgRepository.findByMember(comment.getMember());
                 RepresentativeBadge representativeBadge = representativeBadgeRepository.findByMember(comment.getMember());
-                /*
-                GetCommentDto.from(comment,
-                        s3Service.getFullUrl(memberProfileImg.getImgUrl()),
-                        representativeBadge.getRepresentativeBadge().name,
-                        comment.getMember().getMemberId().equals(memberService.getCurrentMember().getMemberId()));
-                    */
+
                 GetCommentDto getCommentDto1 = GetCommentDto.builder()
                         .commentId(comment.getCommentId())
-                        .writerProfileImg(s3Service.getFullUrl(memberProfileImg.getImgUrl())) //프로필이미지
+                        .writerProfileImg(s3Service.getFullUrl(memberProfileImg.getImgUrl()))
                         .writerNickname(comment.getMember().getNickname())
                         .writerBadge(representativeBadge.getRepresentativeBadge().name)
                         .content(comment.getContent())
