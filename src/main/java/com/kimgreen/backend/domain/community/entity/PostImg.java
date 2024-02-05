@@ -2,16 +2,14 @@ package com.kimgreen.backend.domain.community.entity;
 
 import com.kimgreen.backend.domain.AuditEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Builder
+@Setter
 public class PostImg extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -72,6 +72,4 @@ public class MemberController {
     public Response getMemberInfo() {
         return success(GET_MEMBER_INFO, memberService.getMemberInfo());
     }
-
-
 }

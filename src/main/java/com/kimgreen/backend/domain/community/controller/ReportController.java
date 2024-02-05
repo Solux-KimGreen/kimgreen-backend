@@ -28,7 +28,7 @@ public class ReportController {
     @ResponseStatus(OK)
     @PostMapping()
     public Response postReport(@ParameterObject Long postId,
-            @RequestBody ReportRequestDto reportRequestDto) {
+                               @RequestBody ReportRequestDto reportRequestDto) {
         reportService.postReport(postId,reportRequestDto);
         return success(POST_REPORT_SUCCESS);
     }

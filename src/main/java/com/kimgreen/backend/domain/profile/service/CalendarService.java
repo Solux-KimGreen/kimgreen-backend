@@ -80,9 +80,9 @@ public class CalendarService {
         List<CalendarResponseDto> result = new ArrayList<>();
         for(Map.Entry<String, Integer> map  :maps.entrySet()) {
             result.add(CalendarResponseDto.builder()
-                            .date(map.getKey())
-                            .postCount(map.getValue())
-                            .build());
+                    .date(map.getKey())
+                    .postCount(map.getValue())
+                    .build());
         }
         return result;
     }
@@ -144,7 +144,7 @@ public class CalendarService {
                 .build();
     }
 
-    public boolean isLiked(List<Likes> likesList,Member member) {
+    public boolean isLiked(List<Likes> likesList, Member member) {
         for(Likes like : likesList) {
             if(like.getMember().getMemberId().equals(member.getMemberId())) {
                 return true;

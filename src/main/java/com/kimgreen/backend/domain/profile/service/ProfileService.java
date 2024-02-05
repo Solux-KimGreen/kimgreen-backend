@@ -122,7 +122,7 @@ public class ProfileService {
                 badgeList,
                 badgeImgList,
                 memberId.equals(memberService.getCurrentMember().getMemberId())
-                );
+        );
     }
 
     public List<CommentResponseDto> getMyComment() {

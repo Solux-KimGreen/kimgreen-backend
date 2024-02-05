@@ -188,5 +188,4 @@ public class AuthService {
     public void updateSprout(Member member) {
         badgeRepository.findByMember(member).setSproutIsAchieved(true);
     }
-
 }

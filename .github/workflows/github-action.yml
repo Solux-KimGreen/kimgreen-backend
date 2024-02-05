@@ -1,0 +1,81 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
+
+name: CI/CD
+
+# event trigger
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  CI-CD:
+    runs-on: ubuntu-latest
+
+
+
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin' # https://github.com/actions/setup-java
+
+      ## create env file
+      - name: create env file
+        run: |
+          touch .env
+          echo "${{ secrets.PROPERTIES }}" >> .env
+            
+
+      
+        ## delete : create security.properties
+        ##- name: make security.properties
+        ##run: |
+        ##cd ./src/main/resources 
+          
+          # security.properties 파일 생성
+          ##touch ./security.properties 
+          
+          # GitHub-Actions에서 설정한 값을 security.properties 파일에 쓰기
+          ##echo "${{ secrets.USERNAME }}" > ./security.properties 
+        ##shell: bash
+        
+      - name: create firebase key
+        run: |
+          cd ./src/main/resources
+          touch ./kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
+          echo "${{ secrets.USERNAME }}" > ./kimgreen-f33e5-firebase-adminsdk-63srz-6817b2eec4.json
+
+      - name: Build with Gradle
+        run: |
+          chmod +x ./gradlew
+          ./gradlew build -x test
+
+
+      - name: Docker build & push
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/kimgreen .
+          docker push ${{ secrets.DOCKER_USERNAME }}/kimgreen
+
+      - name: Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST}} # EC2 퍼블릭 IPv4
+          username: ${{ secrets.USERNAME }} # ec2-user
+          key: ${{ secrets.PRIVATE_KEY }} # .pem
+          script: |
+            sudo systemctl start docker
+            sudo docker ps
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/kimgreen
+            docker-compose up -d
+            sudo docker image prune -f
+            

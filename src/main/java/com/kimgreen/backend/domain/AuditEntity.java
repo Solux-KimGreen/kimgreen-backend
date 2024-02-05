@@ -35,4 +35,4 @@ public class AuditEntity {
         String formattedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         this.modifiedAt = LocalDateTime.parse(formattedDate,DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
- }
+}
