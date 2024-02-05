@@ -1,8 +1,12 @@
 package com.kimgreen.backend.domain.profile.service;
 
 import com.kimgreen.backend.domain.BadgeList;
+import com.kimgreen.backend.domain.community.entity.Comment;
 import com.kimgreen.backend.domain.community.entity.Likes;
 import com.kimgreen.backend.domain.community.entity.Post;
+import com.kimgreen.backend.domain.community.entity.PostImg;
+import com.kimgreen.backend.domain.community.repository.CommentRepository;
+import com.kimgreen.backend.domain.community.repository.LikeRepository;
 import com.kimgreen.backend.domain.community.repository.PostImgRepository;
 import com.kimgreen.backend.domain.community.repository.PostRepository;
 import com.kimgreen.backend.domain.community.service.S3Service;
@@ -11,11 +15,14 @@ import com.kimgreen.backend.domain.member.entity.MemberProfileImg;
 import com.kimgreen.backend.domain.member.repository.MemberProfileImgRepository;
 import com.kimgreen.backend.domain.member.repository.MemberRepository;
 import com.kimgreen.backend.domain.member.service.MemberService;
+import com.kimgreen.backend.domain.profile.dto.Profile.CommentResponseDto;
 import com.kimgreen.backend.domain.profile.dto.Profile.GetProfileDto;
+import com.kimgreen.backend.domain.profile.dto.Profile.GetSettingPostDto;
 import com.kimgreen.backend.domain.profile.entity.ProfileBadge;
 import com.kimgreen.backend.domain.profile.entity.RepresentativeBadge;
 import com.kimgreen.backend.domain.profile.repository.ProfileBadgeRepository;
 import com.kimgreen.backend.domain.profile.repository.RepresentativeBadgeRepository;
+import com.kimgreen.backend.exception.PostNotFound;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.kimgreen.backend.domain.profile.dto.Profile.GetProfilePostDto;
@@ -37,6 +44,8 @@ public class ProfileService {
     private final PostRepository postRepository;
     private final PostImgRepository postImgRepository;
     private final GetProfilePostDto getProfilePostDto;
+    private final CommentRepository commentRepository;
+    private  final LikeRepository likeRepository;
 
     public List<GetProfilePostDto> response(Long memberId){
         List<GetProfilePostDto> list = new ArrayList<>();
@@ -113,6 +122,54 @@ public class ProfileService {
                 badgeImgList,
                 memberId.equals(memberService.getCurrentMember().getMemberId())
         );
+    }
+
+    public List<CommentResponseDto> getMyComment() {
+        Member member = memberService.getCurrentMember();
+        String writer = member.getNickname();
+        String writerBadge = representativeBadgeRepository.findByMember(member).getRepresentativeBadge().name;
+        List<Comment> comments = commentRepository.findByMember(member);
+
+        List<CommentResponseDto> dto = new ArrayList<>();
+        for(Comment comment : comments) {
+            Post post = postRepository.findById(comment.getPost().getPostId()).orElseThrow(PostNotFound::new);
+            CommentResponseDto commentDto =  CommentResponseDto.toDto(comment.getCommentId(),post.getPostId(),writerBadge,writer,comment.getContent());
+            dto.add(commentDto);
+        }
+        return dto;
+    }
+
+    public List<GetSettingPostDto> getMyPost() {
+        Member member = memberService.getCurrentMember();
+        String writer = member.getNickname();
+        String writerBadge = representativeBadgeRepository.findByMember(member).getRepresentativeBadge().name;
+        String writerProfileImg = s3Service.getFullUrl(memberProfileImgRepository.findByMember(member).getImgUrl());
+        List<Post> posts = postRepository.findByMember(member);
+
+        List<GetSettingPostDto> dto = new ArrayList<>();
+        for (Post post : posts) {
+            Long countLike = likeRepository.countLike(post.getPostId());
+            List<Likes> likes = post.getLikes();
+            boolean isLiked = isLiked(likes, member);
+            Long countComment = commentRepository.countComment(post.getPostId());
+            PostImg postImg = postImgRepository.findByPost(post);
+            if (postImg != null) {
+                dto.add(GetSettingPostDto.toDto(post.getPostId(), post.getContent(), writerBadge, writer, writerProfileImg, countLike, countComment, s3Service.getFullUrl(postImg.getImgUrl()),isLiked));
+            } else {
+                dto.add(GetSettingPostDto.toDto(post.getPostId(), post.getContent(), writerBadge, writer, writerProfileImg, countLike, countComment,isLiked));
+            }
+
+        }
+        return dto;
+    }
+
+    public boolean isLiked(List<Likes> likesList, Member member) {
+        for(Likes like : likesList) {
+            if(like.getMember().getMemberId().equals(member.getMemberId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

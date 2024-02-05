@@ -18,6 +18,9 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     private static final String SUCCESS = "success";
     private static final String EXPIRED = "expired";
     private static final String DENIED = "denied";
+    private static final String MALFORMED = "malformed";
+    private static final String BLANK = "blank";
+    private static final String MALFORMED_JWT = "malformed_jwt";
 
     @Override
     public void commence(HttpServletRequest request,
@@ -32,7 +35,15 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 setResponse(response,HttpStatus.UNAUTHORIZED.value(),"토큰이 유효하지 않습니다.");
             }
             if (exception.equals(DENIED)) {
-                setResponse(response,HttpStatus.NOT_FOUND.value(), "토큰이 없습니다.");
+                setResponse(response,HttpStatus.NOT_FOUND.value(), "잘못된 형식의 요청입니다.");
+            }
+            if (exception.equals(MALFORMED)) {
+                setResponse(response,HttpStatus.BAD_REQUEST.value(), "Bearer 형식이 존재하지 않습니다.");
+            }
+            if(exception.equals(BLANK)) {
+                setResponse(response,HttpStatus.BAD_REQUEST.value(), "토큰이 존재하지 않습니다.");
+            }if(exception.equals(MALFORMED_JWT)) {
+                setResponse(response,HttpStatus.BAD_REQUEST.value(), "잘못된 형식의 토큰입니다.");
             }
         }
 
