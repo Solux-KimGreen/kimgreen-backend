@@ -35,11 +35,6 @@ public class S3Service {
         metadata.setContentType(multipartFile.getContentType());
 
         amazonS3.putObject(bucket, createdFilename, multipartFile.getInputStream(), metadata);
-
-        uploadDB(PostImg.builder()
-                .imgUrl(createdFilename)
-                .title(originalFilename)
-                .build());
         return createdFilename;
     }
 

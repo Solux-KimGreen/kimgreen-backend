@@ -50,11 +50,10 @@ public class Post extends AuditEntity {
     @Enumerated(EnumType.STRING)
     private Tag tag;
 
-    @JsonIgnore
+
     @Formula("(SELECT COUNT(*) FROM likes l WHERE l.post_id = post_id)")
     private int likeCount;
 
-    @JsonIgnore
     public void update(String category, String content) {
         this.category = Category.valueOf(category);
         this.content = content;

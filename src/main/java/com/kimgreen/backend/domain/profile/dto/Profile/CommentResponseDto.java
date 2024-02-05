@@ -26,3 +26,4 @@ public class CommentResponseDto {
                 .comment(comment)
                 .build();
     }
+}

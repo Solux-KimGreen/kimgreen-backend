@@ -1,5 +1,7 @@
 package com.kimgreen.backend.domain.community.service;
 
+import com.kimgreen.backend.domain.community.dto.BestPostResponseDto;
+import com.kimgreen.backend.domain.community.dto.GetPostInfoRequestDto;
 import com.kimgreen.backend.domain.community.dto.GetPostInfoResponseDto;
 import com.kimgreen.backend.domain.community.dto.WritePostRequestDto;
 import com.kimgreen.backend.domain.community.entity.*;
@@ -23,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -165,6 +168,7 @@ public class PostService {
                     .writerProfileImg(s3Service.getFullUrl(memberProfileImgRepository.findByMember(member).getImgUrl()))
                     .imgUrl(s3Service.getFullUrl(postImgRepository.findByPost(post).getImgUrl()))
                     .content(post.getContent())
+                    .tag(post.getTag().toString())
                     .postId(post.getPostId())
                     .category(String.valueOf(post.getCategory()))
                     .writerBadge(representativeBadgeRepository.findByMember(post.getMember()).getRepresentativeBadge().name)
@@ -172,7 +176,7 @@ public class PostService {
                     .commentCount(post.getComments().size())
                     .isLiked(isLiked)
                     .isMine(post.getMember().getMemberId().equals(memberService.getCurrentMember().getMemberId()))
-                    .updatedAt(String.valueOf(post.getModifiedAt()))
+                    .updatedAt(post.getModifiedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                     .build();
         }
         return GetPostInfoResponseDto.builder()
@@ -180,53 +184,49 @@ public class PostService {
                 .writerProfileImg(s3Service.getFullUrl(memberProfileImgRepository.findByMember(member).getImgUrl()))
                 .content(post.getContent())
                 .postId(post.getPostId())
+                .tag(post.getTag().toString())
                 .category(String.valueOf(post.getCategory()))
                 .writerBadge(representativeBadgeRepository.findByMember(post.getMember()).getRepresentativeBadge().name)
                 .likeCount(post.getLikes().size())
                 .commentCount(post.getComments().size())
                 .isLiked(isLiked)
                 .isMine(post.getMember().getMemberId().equals(memberService.getCurrentMember().getMemberId()))
-                .updatedAt(String.valueOf(post.getModifiedAt()))
+                .updatedAt(post.getModifiedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .build();
     }
 
-    @Transactional
-    public List<GetPostInfoResponseDto> getPostlist(Category category, Tag tag) {
 
-        List<Post> posts = postRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<GetPostInfoResponseDto> getPostlist(Category category, Tag tag, String search) {
+
         List<GetPostInfoResponseDto> postList = new ArrayList<>();
+        List<Post> posts = findPosts(category,tag,search);
 
         for (Post post : posts) {
-/*
-
-            if (post.getTag() != Tag.DAILY || !post.getCategory().equals(category)) {
-                continue;
-            }
-*/
 
             Member member = post.getMember();
             List<Likes> likeList = post.getLikes();
             boolean isLiked = isLiked(likeList, member);
+            PostImg postImg = postImgRepository.findByPost(post);
 
-            Optional<PostImg> optionalPostImg = Optional.ofNullable(postImgRepository.findByPost(post));
-            String imgUrl = optionalPostImg.map(img -> s3Service.getFullUrl(img.getImgUrl())).orElse("defaultImageUrl");
 
             GetPostInfoResponseDto getPostInfoResponseDto = GetPostInfoResponseDto.builder()
                     .writerNickname(post.getMember().getNickname())
                     .writerProfileImg(s3Service.getFullUrl(memberProfileImgRepository.findByMember(member).getImgUrl()))
                     .content(post.getContent())
                     .postId(post.getPostId())
-                    .category(String.valueOf(post.getCategory()))
+                    .category(post.getCategory().toString())
+                    .tag(post.getTag().toString())
                     .writerBadge(representativeBadgeRepository.findByMember(member).getRepresentativeBadge().name)
                     .likeCount(post.getLikes().size())
                     .commentCount(post.getComments().size())
                     .isLiked(isLiked)
                     .isMine(post.getMember().getMemberId().equals(memberService.getCurrentMember().getMemberId()))
-                    .updatedAt(String.valueOf(post.getModifiedAt()))
+                    .updatedAt(post.getModifiedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                     .build();
 
-            if (post.getPostImg() != null) {
-                getPostInfoResponseDto.setImgUrl(s3Service.getFullUrl(postImgRepository.findByPost(post).getImgUrl()));
+            if (postImg!= null) {
+                getPostInfoResponseDto.setImgUrl(s3Service.getFullUrl(postImg.getImgUrl()));
             }
             postList.add(getPostInfoResponseDto);
         }
@@ -239,7 +239,8 @@ public class PostService {
         Member member = memberService.getCurrentMember();
         Post post = postRepository.findById(postId).orElseThrow(PostNotFound::new);
         Badge badge = badgeRepository.findByMember(member);
-
+        //이미지 삭제
+        deletePostImg(post);
         // 게시글 삭제
         postRepository.delete(post);
         decreaseBadgeCount(badge, post.getCategory(), post.getTag());
@@ -256,14 +257,30 @@ public class PostService {
 
         post.update(editPostInfoRequestDto.getCategory(), editPostInfoRequestDto.getContent());
 
+
         if (multipartFile != null) {
-            uploadPostFileList(multipartFile, post);
+            PostImg postImg = postImgRepository.findByPost(post);
+            //postImg 원래 존재하면
+            if(postImg!=null) {
+                s3Service.delete(postImg.getImgUrl());
+                postImg.setImgUrl(s3Service.saveFile(multipartFile));
+            }
+            //postImg 존재하지 않았으면
+            else {
+                uploadPostFileList(multipartFile,post);
+            }
+        } else {
+            PostImg postImg = postImgRepository.findByPost(post);
+            if(postImg!=null) {
+                s3Service.delete(postImg.getImgUrl());
+                postImgRepository.delete(postImg);
+            }
         }
     }
 
     public boolean isLiked(List<Likes> likesList,Member member) {
         for(Likes like : likesList) {
-            if(like.getLikeId().equals(member.getMemberId())) {
+            if(like.getMember().getMemberId().equals(member.getMemberId())) {
                 return true;
             }
         }
@@ -271,40 +288,38 @@ public class PostService {
     }
 
     //좋아요 상위 목록 불러오기
-    @JsonIgnore
     @Transactional
-    public List<Post> getBestPostList() {
+    public List<BestPostResponseDto> getBestPostList() {
         List<Post> bestPost = postRepository.findTop3ByOrderByLikeCountDesc();
-        List<GetPostInfoResponseDto> postList = new ArrayList<>();
+        List<BestPostResponseDto> result = new ArrayList<>();
 
-        for (Post post : bestPost) {
-
-            Member member = post.getMember();
-            List<Likes> likeList = post.getLikes();
-            boolean isLiked = isLiked(likeList, member);
-
-            Optional<PostImg> optionalPostImg = Optional.ofNullable(postImgRepository.findByPost(post));
-            String imgUrl = optionalPostImg.map(img -> s3Service.getFullUrl(img.getImgUrl())).orElse("defaultImageUrl");
-
-            GetPostInfoResponseDto getPostInfoResponseDto = GetPostInfoResponseDto.builder()
-                    .writerNickname(post.getMember().getNickname())
-                    .writerProfileImg(s3Service.getFullUrl(memberProfileImgRepository.findByMember(member).getImgUrl()))
-                    .content(post.getContent())
-                    .postId(post.getPostId())
-                    .category(String.valueOf(post.getCategory()))
-                    .writerBadge(representativeBadgeRepository.findByMember(member).getRepresentativeBadge().name)
-                    .likeCount(post.getLikes().size())
-                    .commentCount(post.getComments().size())
-                    .isLiked(isLiked)
-                    .isMine(post.getMember().getMemberId().equals(memberService.getCurrentMember().getMemberId()))
-                    .updatedAt(String.valueOf(post.getModifiedAt()))
-                    .build();
-
-            if (post.getPostImg() != null) {
-                getPostInfoResponseDto.setImgUrl(s3Service.getFullUrl(postImgRepository.findByPost(post).getImgUrl()));
-            }
-            postList.add(getPostInfoResponseDto);
+        for(Post post : bestPost) {
+            result.add(BestPostResponseDto.builder()
+                            .postId(post.getPostId())
+                            .content(post.getContent())
+                    .build());
         }
-        return bestPost;
+        return result;
+    }
+
+    public void deletePostImg(Post post) {
+        PostImg postImg = postImgRepository.findByPost(post);
+        if(postImg!=null) {
+            s3Service.delete(s3Service.getFullUrl(postImg.getImgUrl()));
+            postImgRepository.delete(postImg);
+        }
+    }
+
+    public List<Post> findPosts(Category category, Tag tag, String search) {
+
+        if(category==null && tag==null && search==null) {return postRepository.findAll();}
+        if(category==null && tag==null && search!=null) {return postRepository.findByContentContaining(search);}
+        if(category==null && tag!=null && search!=null) {return postRepository.findByTagAndContentContaining(tag, search);}
+        if(category!=null && tag==null && search!=null) {return postRepository.findByCategoryAndContentContaining(category, search);}
+        if(category!=null && tag!=null && search!=null) {return postRepository.findByCategoryAndTagAndContentContaining(category,tag,search);}
+        if(category==null && tag!=null && search==null) {return postRepository.findByTag(tag);}
+        if(category!=null && tag==null && search==null) {return postRepository.findByCategory(category);}
+        if(category!=null && tag!=null && search==null) {return postRepository.findByCategoryAndTag(category,tag);}
+         return new ArrayList<>();
     }
 }

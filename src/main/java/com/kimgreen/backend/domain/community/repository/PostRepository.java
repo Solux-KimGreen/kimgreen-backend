@@ -1,7 +1,9 @@
 package com.kimgreen.backend.domain.community.repository;
 
 import com.kimgreen.backend.domain.community.dto.GetPostInfoResponseDto;
+import com.kimgreen.backend.domain.community.entity.Category;
 import com.kimgreen.backend.domain.community.entity.Post;
+import com.kimgreen.backend.domain.community.entity.Tag;
 import com.kimgreen.backend.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +21,12 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         List<Post> findByMember(Member member);
 
         public List<Post> findTop3ByOrderByLikeCountDesc();
+        List<Post> findByContentContaining(String content);
+        List<Post> findByTagAndContentContaining(Tag tag, String content);
+        List<Post> findByCategoryAndContentContaining(Category category, String content);
+        List<Post> findByCategoryAndTagAndContentContaining(Category category, Tag tag,String content);
+        List<Post> findByTag(Tag tag);
+        List<Post> findByCategory(Category category);
+        List<Post> findByCategoryAndTag(Category category, Tag tag);
+
 }

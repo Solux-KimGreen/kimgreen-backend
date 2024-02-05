@@ -1,6 +1,7 @@
 package com.kimgreen.backend.domain.community.controller;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kimgreen.backend.domain.community.dto.GetPostInfoRequestDto;
 import com.kimgreen.backend.domain.community.dto.WritePostRequestDto;
 import com.kimgreen.backend.domain.community.entity.Category;
 import com.kimgreen.backend.domain.member.entity.Member;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.kimgreen.backend.domain.community.entity.*;
 
 
 import java.io.IOException;
@@ -26,7 +28,6 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value="/post")
-
 public class PostController {
 
     private final PostService postService;
@@ -54,15 +55,17 @@ public class PostController {
     @Operation(summary = "게시글 상세 보기")
     @ResponseStatus(OK)
     @GetMapping()
-    public Response getPostInfo(Long postId){
+    public Response getPostInfo(@RequestParam(name="postId") Long postId){
         return success(GET_POST_SUCCESS, postService.getPostInfo(postId));
     }
 
     @Operation(summary = "게시글 목록 불러오기")
     @ResponseStatus(OK)
-    @GetMapping("/{category}")
-    public Response getPostList(Category category, com.kimgreen.backend.domain.community.entity.Tag tag) {
-        return success(GET_POST_LIST_SUCCESS, postService.getPostlist(category, tag));
+    @GetMapping("/list")
+    public Response getPostList(@RequestParam(name="category", required = false) Category category,
+                                @RequestParam(name="tag", required = false) com.kimgreen.backend.domain.community.entity.Tag tag,
+                                @RequestParam(name="search", required = false) String search) {
+        return success(GET_POST_LIST_SUCCESS, postService.getPostlist(category, tag, search));
     }
 
     @JsonIgnore
