@@ -45,5 +45,4 @@ public class profileController {
     @GetMapping("/setting/post")
     public Response getMyPost() {return success(GET_MY_POST_SUCCESS, profileService.getMyPost());}
 
-
 }

@@ -144,12 +144,12 @@ public class CalendarService {
                 .build();
     }
 
-    public boolean isLiked(List<Likes> likesList,Member member) {
+    public boolean isLiked(List<Likes> likesList, Member member) {
         for(Likes like : likesList) {
-            if(like.getLikeId().equals(member.getMemberId())) {
             if(like.getMember().getMemberId().equals(member.getMemberId())) {
                 return true;
             }
         }
         return false;
     }
+}
