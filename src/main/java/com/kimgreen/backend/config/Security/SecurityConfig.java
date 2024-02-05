@@ -38,8 +38,6 @@ public class SecurityConfig {
             ,"/auth/reissue"
     };
     private final static String[] AUTH_WHITE_LIST = {
-            "/",
-            "/**",
             "/swagger-ui/index.html"
             ,"/swagger-ui.html"
             ,"/swagger-ui/**"

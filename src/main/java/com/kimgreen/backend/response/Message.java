@@ -42,4 +42,7 @@ public class Message {
     public static String PROFILE_INFO_SUCCESS="프로필 불러오기 성공했습니다.";
     public static String PROFILE_POSTS_SUCCESS="쓴 글 목록 불러오기 성공했습니다";
 
+    public static String GET_MY_COMMENT_SUCCESS = "내가 쓴 댓글 보기 성공했습니다.";
+    public static String GET_MY_POST_SUCCESS = "내가 쓴 글 보기 성공했습니다.";
+
 }
