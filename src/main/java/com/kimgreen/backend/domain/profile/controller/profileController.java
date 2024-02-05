@@ -10,7 +10,6 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
-
 import static com.kimgreen.backend.response.Message.*;
 import static com.kimgreen.backend.response.Response.success;
 import static org.springframework.http.HttpStatus.OK;
@@ -19,7 +18,6 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping(value="/profile")
 @RequiredArgsConstructor
-
 public class profileController {
     private final ProfileService profileService;
 
@@ -46,7 +44,5 @@ public class profileController {
     @ResponseStatus(OK)
     @GetMapping("/setting/post")
     public Response getMyPost() {return success(GET_MY_POST_SUCCESS, profileService.getMyPost());}
-
-
 
 }

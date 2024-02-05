@@ -1,6 +1,7 @@
 package com.kimgreen.backend.domain.profile.controller;
 
 import com.kimgreen.backend.domain.member.dto.Auth.SignUpRequestDto;
+import com.kimgreen.backend.domain.profile.dto.Calendar.CalendarDetailRequestDto;
 import com.kimgreen.backend.domain.profile.service.CalendarService;
 import com.kimgreen.backend.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,19 +23,17 @@ import static org.springframework.http.HttpStatus.OK;
 public class calendarController {
 
     private final CalendarService calendarService;
-    @Operation(summary = "프로필 달력 불러오기 (농사 잘했는지 불러오는거)")
+    @Operation(summary = "프로필 달력 불러오기")
     @ResponseStatus(OK)
-    @GetMapping("/calender")
-    public Response getCalender(@RequestParam("memberId") Long memberId, @RequestParam("date")LocalDateTime localDateTime) {
-
-        return success(CALENDAR_SUCCESS);
+    @GetMapping("/simple")
+    public Response getCalender(@RequestParam("memberId") Long memberId, @RequestParam("date")String date) {
+        return success(CALENDAR_SUCCESS,calendarService.getCalendar(memberId, date));
     }
 
-    @Operation(summary = "프로필 달력 상세정보 불러오기 (글들 불러오는거임)")
+    @Operation(summary = "프로필 달력 상세정보 불러오기")
     @ResponseStatus(OK)
-    @GetMapping("/calender-details")
-    public Response getCalenderDetails(@RequestBody SignUpRequestDto signUpRequestDto) {
-
-        return success(CALENDAR_DETAILS_SUCCESS);
+    @GetMapping()
+    public Response getCalenderDetails(@RequestBody CalendarDetailRequestDto calendarDetailRequestDto) {
+        return success(CALENDAR_DETAILS_SUCCESS,calendarService.getCalendarDetails(calendarDetailRequestDto));
     }
 }
