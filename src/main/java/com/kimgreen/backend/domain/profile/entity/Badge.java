@@ -23,7 +23,7 @@ public class Badge extends AuditEntity {
 
     @Column(name="earlybird_count",columnDefinition = "int default 0" )
     private int earlybirdCount;
-    @Column(name="ealrybird_is_achieved",columnDefinition = "boolean default false")
+    @Column(name="earlybird_is_achieved",columnDefinition = "boolean default false")
     private boolean earlybirdIsAchieved;
 
     @Column(name="mentor_count",columnDefinition = "int default 0")

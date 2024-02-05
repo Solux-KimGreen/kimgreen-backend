@@ -1,5 +1,6 @@
 package com.kimgreen.backend.domain.member.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kimgreen.backend.domain.AuditEntity;
 import com.kimgreen.backend.domain.community.entity.Comment;
 import com.kimgreen.backend.domain.community.entity.Likes;
@@ -28,6 +29,7 @@ public class Member extends AuditEntity {
     //OneToMany
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
+    @JsonIgnore
     private List<Post> posts = new ArrayList<>();
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default

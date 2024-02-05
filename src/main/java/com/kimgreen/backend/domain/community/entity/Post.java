@@ -1,5 +1,6 @@
 package com.kimgreen.backend.domain.community.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kimgreen.backend.domain.AuditEntity;
 import com.kimgreen.backend.domain.member.entity.Member;
 import jakarta.persistence.*;
@@ -7,8 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Getter
@@ -26,6 +29,7 @@ public class Post extends AuditEntity {
     //ManyToOne
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer_id", nullable = false)
+    @JsonIgnore
     private Member member;
 
     //OneToOne
@@ -46,4 +50,13 @@ public class Post extends AuditEntity {
     @Enumerated(EnumType.STRING)
     private Tag tag;
 
+    @JsonIgnore
+    @Formula("(SELECT COUNT(*) FROM likes l WHERE l.post_id = post_id)")
+    private int likeCount;
+
+    @JsonIgnore
+    public void update(String category, String content) {
+        this.category = Category.valueOf(category);
+        this.content = content;
+    }
 }

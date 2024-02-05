@@ -36,8 +36,8 @@ public class LikeService {
 
     public void postLike(Member member, Post post) {
         likeRepository.save(Likes.builder()
-                        .post(post)
-                        .member(member)
-                        .build());
+                .post(post)
+                .member(member)
+                .build());
     }
 }

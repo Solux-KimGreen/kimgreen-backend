@@ -114,7 +114,7 @@ public class BadgeService {
         }
 
         if(badge.getEtcCount()>=1 && badge.getReformCount()>=1 && badge.getReceiptCount()>=1 && badge.getReusableCount()>=1
-            && badge.getPlasticCount()>=1 && badge.getPloggingCount()>=1 && badge.getTransportCount()>=1) {
+                && badge.getPlasticCount()>=1 && badge.getPloggingCount()>=1 && badge.getTransportCount()>=1) {
             badge.updateAdventurerAchieved();
         } else {
             badge.updateAdventurerNotAchieved();
@@ -127,9 +127,9 @@ public class BadgeService {
         List<BadgeList> returnList = new ArrayList<>();
         for(String badge: badgeList) {
             returnList.add(Arrays.stream(BadgeList.values())
-                            .filter(v->v.name().equals(badge))
-                            .findAny()
-                            .orElseThrow());
+                    .filter(v->v.name().equals(badge))
+                    .findAny()
+                    .orElseThrow());
         }
         return returnList;
 
