@@ -22,6 +22,7 @@ import com.kimgreen.backend.domain.profile.entity.ProfileBadge;
 import com.kimgreen.backend.domain.profile.entity.RepresentativeBadge;
 import com.kimgreen.backend.domain.profile.repository.ProfileBadgeRepository;
 import com.kimgreen.backend.domain.profile.repository.RepresentativeBadgeRepository;
+import com.kimgreen.backend.exception.MemberNotFound;
 import com.kimgreen.backend.exception.PostNotFound;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -92,7 +93,7 @@ public class ProfileService {
     }
 
     public GetProfileDto getProfileInfo(Long memberId){
-        Member member = memberRepository.findById(memberId).orElseThrow(); // 찾고싶은 멤버
+        Member member = memberRepository.findById(memberId).orElseThrow(()-> new MemberNotFound()); // 찾고싶은 멤버
         MemberProfileImg memberProfileImg = memberProfileImgRepository.findByMember(member);
         RepresentativeBadge representativeBadge = representativeBadgeRepository.findByMember(member);
         profileBadgeRepository.findByMember(member);
